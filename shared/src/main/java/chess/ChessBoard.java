@@ -1,5 +1,7 @@
 package chess;
 
+import chess.piece.ChessPiece;
+
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * <p>
@@ -8,9 +10,9 @@ package chess;
  */
 public class ChessBoard {
 
-    chess.ChessPiece[][] squares;
+    ChessPiece[][] squares;
     public ChessBoard() {
-        squares = new chess.ChessPiece[8][8];
+        squares = new ChessPiece[8][8];
     }
 
     /**
@@ -29,7 +31,7 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-
+        return null;
     }
 
     /**

@@ -1,4 +1,9 @@
-package chess;
+package chess.piece;
+
+import chess.ChessBoard;
+import chess.ChessGame;
+import chess.ChessMove;
+import chess.ChessPosition;
 
 import java.util.Collection;
 
@@ -12,10 +17,13 @@ public class ChessPiece {
 
     private final ChessGame.TeamColor color;
     private final ChessPiece.PieceType type;
+    private ChessPosition position;
+    private boolean hasMoved;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.color = pieceColor;
         this.type = type;
+        hasMoved = false;
     }
 
     /**
@@ -35,17 +43,9 @@ public class ChessPiece {
         BLACK
     }
 
-    /**
-     * @return Which team this chess piece belongs to
-     */
     public ChessGame.TeamColor getTeamColor() { return color; }
-
-    /**
-     * @return which type of chess piece this piece is
-     */
-    public PieceType getPieceType() {
-        return type;
-    }
+    public PieceType getPieceType() { return type; }
+    public Boolean getHasMoved() { return hasMoved; }
 
     /**
      * Calculates all the positions a chess piece can move to
@@ -54,7 +54,6 @@ public class ChessPiece {
      *
      * @return Collection of valid moves
      */
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
-    }
+    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) { return null;}
+    public Collection<ChessMove> pieceMoves(ChessBoard board) { return pieceMoves(board, position); }
 }
