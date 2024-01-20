@@ -27,7 +27,8 @@ public class ChessPiece {
         BISHOP,
         KNIGHT,
         ROOK,
-        PAWN
+        PAWN,
+        EMPTY
     }
     public enum Color {
         WHITE,

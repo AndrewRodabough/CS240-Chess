@@ -10,35 +10,38 @@ import chess.ChessPosition;
  */
 public class Linear extends MovePattern {
 
-    /**
-     * -1 if infinite spaces
-     */
-    int maxSpaces;
+    static int maxSpaces;
+    static boolean orthogonal;
+    static boolean diagonal;
 
-    /*
-     * int maxDirections;
-     */
+    public static ChessMove[] getMoves(ChessBoard board, ChessPiece piece, ChessPosition pos) {
 
-    /**
-     * determines if piece can move orthogonally
-     */
-    boolean orthogonal;
+        ChessPosition currentPos;
+        if(diagonal) {
+            for(ChessPosition vec : diagonalVec) {
+                currentPos = pos;
+                for(int j = 0; j < maxSpaces; j++) {
+                    ChessPosition nextPos = currentPos += vec;
+                    ChessPiece p = checkSquare();
+                    if(p == null) { break; }
+                    if(p.getTeamColor() == piece.getTeamColor()) { break; }
+                    // add to list
+                }
+            }
 
-    /**
-     * determines if piece can move diagonally
-     */
-    boolean diagonal;
+        }
+        if(orthogonal) {
+            for (ChessPosition vec : orthogonalVec) {
+                currentPos = pos;
+                for (int j = 0; j < maxSpaces; j++) {
+                    ChessPosition nextPos = currentPos += vec;
+                    ChessPiece p = checkSquare();
+                    if(p == null) { break; }
+                    if(p.getTeamColor() == piece.getTeamColor()) { break; }
+                    // add to list
+                }
+            }
+        }
 
-    public Linear(int maxSpaces, boolean orthogonal, boolean diagonal) {
-        this.maxSpaces = maxSpaces;
-        this.diagonal = diagonal;
-        this.orthogonal = orthogonal;
     }
-
-    /*
-    public int getMaxSpaces() { return maxSpaces; }
-    public boolean getOrthogonal() { return orthogonal; }
-    public boolean getDiagonal() { return diagonal; }
-    */
-
 }
