@@ -7,12 +7,11 @@ import chess.ChessPosition;
 
 import java.util.Collection;
 
-public class Rook extends ChessPiece {
-    public Rook(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
-        super(pieceColor, type);
-    }
+public class Rook extends LinearChessPiece {
+    protected static int maxSpaces = -1;
+    protected static boolean orthogonal = true;
+    protected static boolean diagonal = false;
 
-    @Override
-    public Collection<ChessMove> pieceMoves (ChessBoard board, ChessPosition position) {
-        return  null; }
+    public Rook(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) { super(pieceColor, type); }
+
 }

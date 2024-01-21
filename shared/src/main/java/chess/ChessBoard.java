@@ -33,6 +33,11 @@ public class ChessBoard {
     public ChessPiece getPiece(ChessPosition position) {
         return null;
     }
+    public boolean positionExists(ChessPosition pos) {
+        int col =  pos.getColumn();
+        int row =  pos.getRow();
+        return col >= 0 && col < 8 && row >= 0 && row < 8;
+    }
 
     /**
      * Sets the board to the default starting board

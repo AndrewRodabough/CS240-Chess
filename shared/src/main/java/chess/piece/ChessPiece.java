@@ -15,10 +15,10 @@ import java.util.Collection;
  */
 public class ChessPiece {
 
-    private final ChessGame.TeamColor color;
-    private final ChessPiece.PieceType type;
-    private ChessPosition position;
-    private boolean hasMoved;
+    protected final ChessGame.TeamColor color;
+    protected final ChessPiece.PieceType type;
+    protected ChessPosition position;
+    protected boolean hasMoved;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.color = pieceColor;

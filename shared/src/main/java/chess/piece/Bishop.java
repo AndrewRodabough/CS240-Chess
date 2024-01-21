@@ -7,12 +7,12 @@ import chess.ChessPosition;
 
 import java.util.Collection;
 
-public class Bishop extends ChessPiece {
+public class Bishop extends LinearChessPiece {
+    protected static int maxSpaces = -1;
+    protected static boolean orthogonal = false;
+    protected static boolean diagonal = true;
+
     public Bishop(ChessGame.TeamColor pieceColor, PieceType type) {
         super(pieceColor, type);
     }
-
-    @Override
-    public Collection<ChessMove> pieceMoves (ChessBoard board, ChessPosition position) {
-        return  null; }
 }

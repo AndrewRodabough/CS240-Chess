@@ -7,12 +7,10 @@ import chess.ChessPosition;
 
 import java.util.Collection;
 
-public class King extends ChessPiece {
-    public King(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
-        super(pieceColor, type);
-    }
+public class King extends LinearChessPiece {
+    protected static int maxSpaces = 1;
+    protected static boolean orthogonal = true;
+    protected static boolean diagonal = true;
 
-    @Override
-    public Collection<ChessMove> pieceMoves (ChessBoard board, ChessPosition position) {
-        return  null; }
+    public King(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) { super(pieceColor, type); }
 }
