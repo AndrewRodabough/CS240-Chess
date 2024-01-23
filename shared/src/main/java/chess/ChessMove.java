@@ -11,6 +11,7 @@ public class ChessMove {
     ChessPosition startPosition;
     ChessPosition endPosition;
     ChessPiece.PieceType promotionPiece;
+
     public ChessMove(ChessPosition startPosition, ChessPosition endPosition, ChessPiece.PieceType promotionPiece) {
         this.startPosition = startPosition;
         this.endPosition = endPosition;
@@ -28,6 +29,41 @@ public class ChessMove {
      */
     public ChessPiece.PieceType getPromotionPiece() {
         throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public int hashCode() {
+        int startH = startPosition.hashCode();
+        int endH = endPosition.hashCode();
+        int hash;
+        if(promotionPiece == null) {
+            hash = startH + endH;
+        }
+        else {
+            int promotionH = promotionPiece.hashCode();
+            hash = startH + endH + promotionH;
+        }
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof ChessMove)) return false;
+        ChessMove o = (ChessMove) obj;
+        return this.startPosition.equals(o.startPosition) && this.endPosition.equals(o.endPosition) && this.promotionPiece.equals(o.promotionPiece);
+    }
+
+    @Override
+    public String toString() {
+        String s = "Move(start:" + startPosition.toString() + ", End:" + endPosition.toString() + ", Promo:";
+        if(promotionPiece == null) {
+            s += "None";
+        }
+        else {
+            s += promotionPiece.toString();
+        }
+        s += ")";
+        return s;
     }
 
 }

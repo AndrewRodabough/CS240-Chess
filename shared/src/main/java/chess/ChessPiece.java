@@ -68,4 +68,10 @@ public class ChessPiece {
         ChessPiece o = (ChessPiece) obj;
         return this.type == o.type && this.color == o.color && this.position.equals(o.position) && this.hasMoved == o.hasMoved;
     }
+
+    @Override
+    public String toString() {
+        String s = "Piece(" + color.name() + "," + type.name() + ")";
+        return s;
+    }
 }
