@@ -10,12 +10,15 @@ import java.util.Collection;
  */
 public class ChessPiece {
 
-    private final ChessGame.TeamColor color;
-    private final ChessPiece.PieceType type;
+    protected final ChessGame.TeamColor color;
+    protected final ChessPiece.PieceType type;
+    protected ChessPosition position;
+    public boolean hasMoved;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.color = pieceColor;
         this.type = type;
+        hasMoved = false;
     }
 
     /**
@@ -27,25 +30,16 @@ public class ChessPiece {
         BISHOP,
         KNIGHT,
         ROOK,
-        PAWN,
-        EMPTY
+        PAWN
     }
     public enum Color {
         WHITE,
         BLACK
     }
 
-    /**
-     * @return Which team this chess piece belongs to
-     */
     public ChessGame.TeamColor getTeamColor() { return color; }
-
-    /**
-     * @return which type of chess piece this piece is
-     */
-    public PieceType getPieceType() {
-        return type;
-    }
+    public PieceType getPieceType() { return type; }
+    public Boolean getHasMoved() { return hasMoved; }
 
     /**
      * Calculates all the positions a chess piece can move to
@@ -54,7 +48,37 @@ public class ChessPiece {
      *
      * @return Collection of valid moves
      */
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
+    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) { return null;}
+    public Collection<ChessMove> pieceMoves(ChessBoard board) { return pieceMoves(board, position); }
+
+    @Override
+    public int hashCode() {
+        int colorI = color.ordinal();
+        int typeI = type.ordinal();
+        //int posH = position.hashCode();
+        int hash1 = colorI >= typeI ? colorI * colorI + colorI + typeI : colorI + typeI * typeI;
+        //int hash2 = posH + hash1;
+        //hash1 *= this.hasMoved ? 11 : 29;
+        return hash1;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof ChessPiece)) return false;
+        ChessPiece o = (ChessPiece) obj;
+        /*
+        return this.type == o.type &&
+                this.color == o.color &&
+                this.position.equals(o.position) &&
+                this.hasMoved == o.hasMoved;
+
+         */
+        return this.type == o.type && this.color == o.color;
+    }
+
+    @Override
+    public String toString() {
+        String s = "Piece(" + color.name() + "," + type.name() + ")";
+        return s;
     }
 }
