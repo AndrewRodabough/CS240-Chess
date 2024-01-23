@@ -37,4 +37,17 @@ public class ChessPosition {
     public ChessPosition add(ChessPosition other) {
         return new ChessPosition(this.getRow() + other.getRow(), this.getColumn() + other.getColumn());
     }
+
+    @Override
+    public int hashCode() {
+        int hash = row >= col ? row * row + row + col : row + col * col;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof ChessPosition)) return false;
+        ChessPosition o = (ChessPosition) obj;
+        return this.row == o.row && this.col == o.col;
+    }
 }

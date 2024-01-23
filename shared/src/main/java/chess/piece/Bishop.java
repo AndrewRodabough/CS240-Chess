@@ -8,11 +8,11 @@ import chess.ChessPosition;
 import java.util.Collection;
 
 public class Bishop extends LinearChessPiece {
-    protected static int maxSpaces = -1;
-    protected static boolean orthogonal = false;
-    protected static boolean diagonal = true;
+    protected int maxSpaces = -1;
+    protected boolean orthogonal = false;
+    protected boolean diagonal = true;
 
     public Bishop(ChessGame.TeamColor pieceColor, PieceType type) {
-        super(pieceColor, type);
+        super(pieceColor, type, -1, false, true);
     }
 }

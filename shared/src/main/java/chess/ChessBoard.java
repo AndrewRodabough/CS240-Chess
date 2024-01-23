@@ -1,7 +1,5 @@
 package chess;
 
-import chess.piece.ChessPiece;
-
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * <p>
@@ -21,7 +19,22 @@ public class ChessBoard {
      * @param piece    the piece to add
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {
-        squares[position.getRow()][position.getColumn()] = piece;
+
+        ChessPiece betterPiece = null;
+        if (piece.getPieceType() == ChessPiece.PieceType.KING) {
+            betterPiece = new chess.piece.King(piece.getTeamColor(), piece.getPieceType()); }
+        else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
+            betterPiece = new chess.piece.Queen(piece.getTeamColor(), piece.getPieceType()); }
+        else if (piece.getPieceType() == ChessPiece.PieceType.ROOK) {
+            betterPiece = new chess.piece.Rook(piece.getTeamColor(), piece.getPieceType()); }
+        else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
+            betterPiece = new chess.piece.Bishop(piece.getTeamColor(), piece.getPieceType()); }
+        else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
+            betterPiece = new chess.piece.Knight(piece.getTeamColor(), piece.getPieceType()); }
+        else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+            betterPiece = new chess.piece.Pawn(piece.getTeamColor(), piece.getPieceType()); }
+        betterPiece.position = position;
+        squares[position.getRow()][position.getColumn()] = betterPiece;
     }
 
     /**
@@ -31,12 +44,12 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        return null;
+        return squares[position.getRow()][position.getColumn()];
     }
     public boolean positionExists(ChessPosition pos) {
         int col =  pos.getColumn();
         int row =  pos.getRow();
-        return col >= 0 && col < 8 && row >= 0 && row < 8;
+        return col >= 1 && col <= 8 && row >= 1 && row <= 8;
     }
 
     /**

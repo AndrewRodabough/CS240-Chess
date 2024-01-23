@@ -1,9 +1,4 @@
-package chess.piece;
-
-import chess.ChessBoard;
-import chess.ChessGame;
-import chess.ChessMove;
-import chess.ChessPosition;
+package chess;
 
 import java.util.Collection;
 
@@ -35,8 +30,7 @@ public class ChessPiece {
         BISHOP,
         KNIGHT,
         ROOK,
-        PAWN,
-        EMPTY
+        PAWN
     }
     public enum Color {
         WHITE,
@@ -56,4 +50,22 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) { return null;}
     public Collection<ChessMove> pieceMoves(ChessBoard board) { return pieceMoves(board, position); }
+
+    @Override
+    public int hashCode() {
+        int colorI = color.ordinal();
+        int typeI = type.ordinal();
+        int posH = position.hashCode();
+        int hash1 = colorI >= typeI ? colorI * colorI + colorI + typeI : colorI + typeI * typeI;
+        int hash2 = posH + hash1;
+        hash2 *= this.hasMoved ? 11 : 29;
+        return hash2;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof ChessPiece)) return false;
+        ChessPiece o = (ChessPiece) obj;
+        return this.type == o.type && this.color == o.color && this.position.equals(o.position) && this.hasMoved == o.hasMoved;
+    }
 }

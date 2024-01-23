@@ -1,18 +1,15 @@
 package chess.piece;
 
-import chess.ChessBoard;
-import chess.ChessGame;
-import chess.ChessMove;
-import chess.ChessPosition;
+import chess.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Knight extends ChessPiece {
+public class Knight extends FiniteChessPiece {
 
-    protected static List<ChessPosition> possibleMoves = new ArrayList<>();
-    protected static List<ChessPosition> possibleCaptures;
+    public static List<ChessPosition> possibleMoves = new ArrayList<>();
+    public static List<ChessPosition> possibleCaptures;
     static {
         possibleMoves.add(new ChessPosition(-2,-1));
         possibleMoves.add(new ChessPosition(-2,1));
@@ -22,9 +19,16 @@ public class Knight extends ChessPiece {
         possibleMoves.add(new ChessPosition(-1,2));
         possibleMoves.add(new ChessPosition(1,-2));
         possibleMoves.add(new ChessPosition(1,2));
-        possibleCaptures = new ArrayList<>();
+        possibleCaptures = possibleMoves;
     }
     public Knight(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
-        super(pieceColor, type);
+        super(pieceColor, type, possibleMoves, possibleCaptures);
     }
+
+    /*
+    @Override
+    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+        return super.pieceMoves(board, myPosition);
+    }
+     */
 }
