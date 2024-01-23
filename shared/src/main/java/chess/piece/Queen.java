@@ -7,5 +7,7 @@ public class Queen extends LinearChessPiece {
     protected boolean orthogonal = true;
     protected boolean diagonal = true;
 
-    public Queen(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) { super(pieceColor, type); }
+    public Queen(ChessGame.TeamColor pieceColor, PieceType type) {
+        super(pieceColor, type, -1, true, true);
+    }
 }

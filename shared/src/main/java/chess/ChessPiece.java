@@ -13,7 +13,7 @@ public class ChessPiece {
     protected final ChessGame.TeamColor color;
     protected final ChessPiece.PieceType type;
     protected ChessPosition position;
-    protected boolean hasMoved;
+    public boolean hasMoved;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.color = pieceColor;
@@ -55,18 +55,25 @@ public class ChessPiece {
     public int hashCode() {
         int colorI = color.ordinal();
         int typeI = type.ordinal();
-        int posH = position.hashCode();
+        //int posH = position.hashCode();
         int hash1 = colorI >= typeI ? colorI * colorI + colorI + typeI : colorI + typeI * typeI;
-        int hash2 = posH + hash1;
-        hash2 *= this.hasMoved ? 11 : 29;
-        return hash2;
+        //int hash2 = posH + hash1;
+        //hash1 *= this.hasMoved ? 11 : 29;
+        return hash1;
     }
 
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof ChessPiece)) return false;
         ChessPiece o = (ChessPiece) obj;
-        return this.type == o.type && this.color == o.color && this.position.equals(o.position) && this.hasMoved == o.hasMoved;
+        /*
+        return this.type == o.type &&
+                this.color == o.color &&
+                this.position.equals(o.position) &&
+                this.hasMoved == o.hasMoved;
+
+         */
+        return this.type == o.type && this.color == o.color;
     }
 
     @Override

@@ -50,7 +50,21 @@ public class ChessMove {
     public boolean equals(Object obj) {
         if(!(obj instanceof ChessMove)) return false;
         ChessMove o = (ChessMove) obj;
-        return this.startPosition.equals(o.startPosition) && this.endPosition.equals(o.endPosition) && this.promotionPiece.equals(o.promotionPiece);
+        if (this.promotionPiece == null) {
+            if (o.promotionPiece == null) {
+                return this.startPosition.equals(o.startPosition) &&
+                        this.endPosition.equals(o.endPosition);
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return this.startPosition.equals(o.startPosition) &&
+                    this.endPosition.equals(o.endPosition) &&
+                    this.promotionPiece.equals(o.promotionPiece);
+        }
+
     }
 
     @Override

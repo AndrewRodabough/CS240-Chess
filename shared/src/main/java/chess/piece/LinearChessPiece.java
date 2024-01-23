@@ -62,6 +62,7 @@ public class LinearChessPiece extends ChessPiece {
                     ChessPiece piece = board.getPiece(nextPos);
                     if(piece == null) { validMoves.add(new ChessMove(myPosition, nextPos, null)); currentPos = nextPos; continue; }
                     if(piece.getTeamColor() != this.color) { validMoves.add(new ChessMove(myPosition, nextPos, null)); break; }
+                    else { break;}
                 }
             }
         }

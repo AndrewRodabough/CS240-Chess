@@ -7,6 +7,8 @@ public class Rook extends LinearChessPiece {
     protected boolean orthogonal = true;
     protected boolean diagonal = false;
 
-    public Rook(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) { super(pieceColor, type); }
+    public Rook(ChessGame.TeamColor pieceColor, PieceType type) {
+        super(pieceColor, type, -1, true, false);
+    }
 
 }
