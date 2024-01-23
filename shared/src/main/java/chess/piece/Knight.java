@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Knight extends FiniteChessPiece {
+public class Knight extends ChessPiece{
 
     public static List<ChessPosition> possibleMoves = new ArrayList<>();
     public static List<ChessPosition> possibleCaptures;
@@ -22,13 +22,31 @@ public class Knight extends FiniteChessPiece {
         possibleCaptures = possibleMoves;
     }
     public Knight(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
-        super(pieceColor, type, possibleMoves, possibleCaptures);
+        super(pieceColor, type);
     }
 
-    /*
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        return super.pieceMoves(board, myPosition);
+
+        Collection<ChessMove> validMoves = new ArrayList<>();
+        for(ChessPosition move : possibleMoves)
+        {
+            if (!board.positionExists(position.add(move))) { continue; }
+            ChessPiece piece = board.getPiece(position.add(move));
+            if (piece == null) { validMoves.add(new ChessMove(position, position.add(move), null)); }
+        }
+        for(ChessPosition move : possibleCaptures)
+        {
+            if (!board.positionExists(position.add(move))) { continue; }
+            ChessPiece piece = board.getPiece(position.add(move));
+            if (piece != null && piece.getTeamColor() != this.color) { validMoves.add(new ChessMove(position, position.add(move), null)); }
+        }
+
+        return validMoves;
     }
-     */
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
