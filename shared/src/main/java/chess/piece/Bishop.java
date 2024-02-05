@@ -1,18 +1,31 @@
 package chess.piece;
 
-import chess.ChessBoard;
 import chess.ChessGame;
-import chess.ChessMove;
-import chess.ChessPosition;
+import chess.ChessPiece;
+import chess.move.FiniteMoveGetter;
+import chess.move.LinearMoveGetter;
+import chess.move.PossibleMove;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-public class Bishop extends LinearChessPiece {
-    protected int maxSpaces = -1;
-    protected boolean orthogonal = false;
-    protected boolean diagonal = true;
+public class Bishop extends ChessPiece {
+    private static LinearMoveGetter linearMoves;
 
-    public Bishop(ChessGame.TeamColor pieceColor, PieceType type) {
-        super(pieceColor, type, -1, false, true);
+    static {
+        Collection<PossibleMove> linear = new ArrayList<>();
+        linear.add(new PossibleMove(-1, -1,true,true, false, false));
+        linear.add(new PossibleMove(-1, 1,true,true, false, false));
+        linear.add(new PossibleMove(1, -1,true,true, false, false));
+        linear.add(new PossibleMove(1, 1,true,true, false, false));
+        linearMoves = new LinearMoveGetter(linear, -1);
+
+    }
+    public Bishop(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
+        this(pieceColor, type, false);
+    }
+    public Bishop(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type, boolean hasMoved) {
+        super(pieceColor, type, hasMoved);
+        moveGetters.add(linearMoves);
     }
 }

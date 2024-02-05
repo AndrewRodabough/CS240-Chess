@@ -1,6 +1,10 @@
 package chess;
 
+import chess.move.MoveGetter;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -9,21 +13,21 @@ import java.util.Collection;
  * signature of the existing methods.
  */
 public class ChessPiece {
-
-    protected final ChessGame.TeamColor color;
-    protected final ChessPiece.PieceType type;
-    protected ChessPosition position;
-    public boolean hasMoved;
+    private ChessGame.TeamColor color;
+    private ChessPiece.PieceType type;
+    private ChessPosition position;
+    private boolean hasMoved;
+    protected ArrayList<MoveGetter> moveGetters = new ArrayList<>();
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
+        this(pieceColor, type, false);
+    }
+    public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type, boolean hasMoved) {
         this.color = pieceColor;
         this.type = type;
-        hasMoved = false;
+        this.hasMoved = hasMoved;
     }
 
-    /**
-     * The various different chess piece options
-     */
     public enum PieceType {
         KING,
         QUEEN,
@@ -32,51 +36,33 @@ public class ChessPiece {
         ROOK,
         PAWN
     }
-    public enum Color {
-        WHITE,
-        BLACK
-    }
 
     public ChessGame.TeamColor getTeamColor() { return color; }
     public PieceType getPieceType() { return type; }
     public Boolean getHasMoved() { return hasMoved; }
+    public ChessPosition getPosition() { return position; }
 
-    /**
-     * Calculates all the positions a chess piece can move to
-     * Does not take into account moves that are illegal due to leaving the king in
-     * danger
-     *
-     * @return Collection of valid moves
-     */
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) { return null;}
+    public void setHasMoved(boolean hasMoved) { this.hasMoved = hasMoved; }
+    public void setPosition(ChessPosition position) { this.position = position; }
+
+    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+        Collection<ChessMove> validMoves = new ArrayList<>();
+        for (MoveGetter getter : moveGetters) {
+            validMoves.addAll(getter.getValidMoves(board,myPosition,hasMoved,color));
+        }
+        return validMoves;
+    }
     public Collection<ChessMove> pieceMoves(ChessBoard board) { return pieceMoves(board, position); }
 
-    @Override
     public int hashCode() {
-        int colorI = color.ordinal();
-        int typeI = type.ordinal();
-        //int posH = position.hashCode();
-        int hash1 = colorI >= typeI ? colorI * colorI + colorI + typeI : colorI + typeI * typeI;
-        //int hash2 = posH + hash1;
-        //hash1 *= this.hasMoved ? 11 : 29;
-        return hash1;
+        return Objects.hash(color, type);
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(!(obj instanceof ChessPiece)) return false;
-        ChessPiece o = (ChessPiece) obj;
-        /*
-        return this.type == o.type &&
-                this.color == o.color &&
-                this.position.equals(o.position) &&
-                this.hasMoved == o.hasMoved;
-
-         */
-        return this.type == o.type && this.color == o.color;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessPiece that = (ChessPiece) o;
+        return color == that.color && type == that.type;
     }
-
-    @Override
     public String toString() {
         String s = "Piece(" + color.name() + "," + type.name() + ")";
         return s;

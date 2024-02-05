@@ -1,52 +1,33 @@
 package chess.piece;
 
 import chess.*;
+import chess.move.FiniteMoveGetter;
+import chess.move.LinearLastMoveGetter;
+import chess.move.PossibleMove;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.ArrayList;
 
-public class Knight extends ChessPiece{
+public class Knight extends ChessPiece {
+    private static FiniteMoveGetter finiteMoves;
 
-    public static List<ChessPosition> possibleMoves = new ArrayList<>();
-    public static List<ChessPosition> possibleCaptures;
     static {
-        possibleMoves.add(new ChessPosition(-2,-1));
-        possibleMoves.add(new ChessPosition(-2,1));
-        possibleMoves.add(new ChessPosition(2,-1));
-        possibleMoves.add(new ChessPosition(2,1));
-        possibleMoves.add(new ChessPosition(-1,-2));
-        possibleMoves.add(new ChessPosition(-1,2));
-        possibleMoves.add(new ChessPosition(1,-2));
-        possibleMoves.add(new ChessPosition(1,2));
-        possibleCaptures = possibleMoves;
+        Collection<PossibleMove> finite = new ArrayList<>();
+        finite.add(new PossibleMove(-2, -1,true,true, false, false));
+        finite.add(new PossibleMove(-2, 1,true,true, false, false));
+        finite.add(new PossibleMove(2, -1,true,true, false, false));
+        finite.add(new PossibleMove(2, 1,true,true, false, false));
+        finite.add(new PossibleMove(-1, -2,true,true, false, false));
+        finite.add(new PossibleMove(-1, 2,true,true, false, false));
+        finite.add(new PossibleMove(1, -2,true,true, false, false));
+        finite.add(new PossibleMove(1, 2,true,true, false, false));
+        finiteMoves = new FiniteMoveGetter(finite);
     }
     public Knight(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
-        super(pieceColor, type);
+        this(pieceColor, type, false);
     }
-
-    @Override
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-
-        Collection<ChessMove> validMoves = new ArrayList<>();
-        for(ChessPosition move : possibleMoves)
-        {
-            if (!board.positionExists(position.add(move))) { continue; }
-            ChessPiece piece = board.getPiece(position.add(move));
-            if (piece == null) { validMoves.add(new ChessMove(position, position.add(move), null)); }
-        }
-        for(ChessPosition move : possibleCaptures)
-        {
-            if (!board.positionExists(position.add(move))) { continue; }
-            ChessPiece piece = board.getPiece(position.add(move));
-            if (piece != null && piece.getTeamColor() != this.color) { validMoves.add(new ChessMove(position, position.add(move), null)); }
-        }
-
-        return validMoves;
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
+    public Knight(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type, boolean hasMoved) {
+        super(pieceColor, type, hasMoved);
+        moveGetters.add(finiteMoves);
     }
 }

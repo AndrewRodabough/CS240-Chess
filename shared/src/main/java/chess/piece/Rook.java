@@ -1,14 +1,28 @@
 package chess.piece;
 
 import chess.*;
+import chess.move.LinearMoveGetter;
+import chess.move.PossibleMove;
 
-public class Rook extends LinearChessPiece {
-    protected int maxSpaces = -1;
-    protected boolean orthogonal = true;
-    protected boolean diagonal = false;
+import java.util.ArrayList;
+import java.util.Collection;
 
-    public Rook(ChessGame.TeamColor pieceColor, PieceType type) {
-        super(pieceColor, type, -1, true, false);
+public class Rook extends ChessPiece {
+    private static LinearMoveGetter linearMoves;
+
+    static {
+        Collection<PossibleMove> linear = new ArrayList<>();
+        linear.add(new PossibleMove(-1, 0,true,true, false, false));
+        linear.add(new PossibleMove(1, 0,true,true, false, false));
+        linear.add(new PossibleMove(0, -1,true,true, false, false));
+        linear.add(new PossibleMove(0, 1,true,true, false, false));
+        linearMoves = new LinearMoveGetter(linear, -1);
     }
-
+    public Rook(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
+        this(pieceColor, type, false);
+    }
+    public Rook(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type, boolean hasMoved) {
+        super(pieceColor, type, hasMoved);
+        moveGetters.add(linearMoves);
+    }
 }

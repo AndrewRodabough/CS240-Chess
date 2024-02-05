@@ -33,7 +33,7 @@ public class ChessBoard {
         else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
             betterPiece = new chess.piece.Pawn(piece.getTeamColor(), piece.getPieceType());
             boolean moved = true;
-            if(betterPiece.color.ordinal() == ChessPiece.Color.BLACK.ordinal()) {
+            if(betterPiece.getTeamColor().ordinal() == ChessGame.TeamColor.BLACK.ordinal()) {
                 if(position.getRow() == 7) {
                     moved = false;
                 }
@@ -43,19 +43,16 @@ public class ChessBoard {
                     moved = false;
                 }
             }
-            betterPiece.hasMoved = moved;
+            betterPiece.setHasMoved(moved);
         }
 
-        betterPiece.position = position;
+        betterPiece.setPosition(position);
         squares[position.getRow() - 1][position.getColumn() - 1] = betterPiece;
     }
 
-    /**
-     * Gets a chess piece on the chessboard
-     * @param position The position to get the piece from
-     * @return Either the piece at the position, or null if no piece is at that
-     * position
-     */
+    public boolean canPromote(ChessPosition pos, ChessGame.TeamColor color) {
+        return pos.getRow() == (color == ChessGame.TeamColor.WHITE ? 1 : 8);
+    }
     public ChessPiece getPiece(ChessPosition position) {
 
         return squares[position.getRow() - 1][position.getColumn() - 1];

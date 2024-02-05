@@ -20,16 +20,7 @@ public class ChessMove {
 
     public ChessPosition getStartPosition() { return this.startPosition; }
     public ChessPosition getEndPosition() { return this.endPosition; }
-
-    /**
-     * Gets the type of piece to promote a pawn to if pawn promotion is part of this
-     * chess move
-     *
-     * @return Type of piece to promote a pawn to, or null if no promotion
-     */
-    public ChessPiece.PieceType getPromotionPiece() {
-        throw new RuntimeException("Not implemented");
-    }
+    public ChessPiece.PieceType getPromotionPiece() { return promotionPiece; }
 
     @Override
     public int hashCode() {
