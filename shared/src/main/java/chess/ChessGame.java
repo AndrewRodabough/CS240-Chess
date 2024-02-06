@@ -49,16 +49,10 @@ public class ChessGame {
         return piece.pieceMoves(board);
     }
 
-    /**
-     * Makes a move in a chess game
-     *
-     * @param move chess move to preform
-     * @throws InvalidMoveException if move is invalid
-     */
     public void makeMove(ChessMove move) throws InvalidMoveException {
         ChessPiece piece = board.getPiece(move.startPosition);
         if(piece == null) { throw new InvalidMoveException("piece does not exist"); }
-        if(piece.getTeamColor() != getTeamTurn()) { throw new InvalidMoveException("wrong color"); }
+        //if(piece.getTeamColor() != getTeamTurn()) { throw new InvalidMoveException("wrong color"); }
 
         boolean inValidMoves = false;
         Collection<ChessMove> moves = validMoves(move.getStartPosition());
@@ -72,16 +66,28 @@ public class ChessGame {
         }
     }
 
-    public boolean isInCheck(TeamColor teamColor) throws Exception {
+    public boolean isInCheck(TeamColor teamColor) {
         // get king piece
-        // check queen moves for check
-        // check knight moves for check
+        // check all squares for pieces of opposite type
 
         ChessPiece king = board.getPiece(ChessPiece.PieceType.KING, teamColor);
-        if(king == null) { throw new Exception("King is Missing"); }
+        if(king == null) { return false; }
 
-        ChessPiece tempQ = new ChessPiece()
-
+        for(int i=1; i < 8; i++) {
+            for(int j=1; j < 8; j++) {
+                ChessPiece piece = board.getPiece(new ChessPosition(i,j));
+                if (piece == null) { continue; }
+                if(piece.getTeamColor() != teamColor) {
+                    Collection<ChessMove> moves = validMoves(piece.position);
+                    for(ChessMove move : moves) {
+                        if(move.endPosition.equals(king.position)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
     public boolean isInCheckmate(TeamColor teamColor) {
         throw new RuntimeException("Not implemented");

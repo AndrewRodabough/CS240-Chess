@@ -61,8 +61,9 @@ public class ChessBoard {
     }
     public ChessPiece getPiece(ChessPiece.PieceType type, ChessGame.TeamColor color) {
         for(int i=1; i < 8; i++) {
-            for(int j=0; j < 8; j++) {
+            for(int j=1; j < 8; j++) {
                 ChessPiece piece = getPiece(new ChessPosition(i,j));
+                if(piece == null) { continue; }
                 if(piece.getTeamColor() == color && piece.getPieceType() == type) { return piece; }
             }
         }
@@ -74,9 +75,19 @@ public class ChessBoard {
         return col >= 1 && col <= 8 && row >= 1 && row <= 8;
     }
     public void MovePiece(ChessMove move) {
+
         ChessPiece piece = getPiece(move.startPosition);
-        squares[move.startPosition.getRow()][move.startPosition.getColumn()] = null;
-        squares[move.endPosition.getRow()][move.endPosition.getColumn()] = piece;
+        if(move.promotionPiece != null) {
+            addPiece(move.endPosition, new ChessPiece(piece.getTeamColor(), move.promotionPiece));
+            squares[move.startPosition.getRow() - 1][move.startPosition.getColumn() - 1] = null;
+        }
+        else {
+            squares[move.startPosition.getRow() - 1][move.startPosition.getColumn() - 1] = null;
+            piece.position = move.endPosition;
+            squares[move.endPosition.getRow() - 1][move.endPosition.getColumn() - 1] = piece;
+        }
+
+
     }
     public void resetBoard() {
         squares = new ChessPiece[8][8];
