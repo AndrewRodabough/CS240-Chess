@@ -1,7 +1,8 @@
 package chess;
 
 import java.util.Collection;
-
+import java.util.List;
+import java.util.ArrayList;
 /**
  * For a class that can manage a chess game, making moves on a board
  * <p>
@@ -10,43 +11,42 @@ import java.util.Collection;
  */
 public class ChessGame {
 
+    private chess.ChessBoard board = new ChessBoard();
+    private TeamColor turn = TeamColor.WHITE;
+    private boolean currentGame = false;
+
     public ChessGame() {
 
     }
 
-    /**
-     * @return Which team's turn it is
-     */
-    public TeamColor getTeamTurn() {
-        throw new RuntimeException("Not implemented");
+    public void initializeGame() {
+        turn = TeamColor.WHITE;
+        currentGame = true;
+        board.resetBoard();
     }
 
-    /**
-     * Set's which teams turn it is
-     *
-     * @param team the team whose turn it is
-     */
+    public TeamColor getTeamTurn() { return turn; }
     public void setTeamTurn(TeamColor team) {
-        throw new RuntimeException("Not implemented");
+        turn = team;
     }
 
-    /**
-     * Enum identifying the 2 possible teams in a chess game
-     */
     public enum TeamColor {
         WHITE,
         BLACK
     }
 
     /**
-     * Gets a valid moves for a piece at the given location
+     * Gets valid moves for a piece at the given location
      *
      * @param startPosition the piece to get valid moves for
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-        throw new RuntimeException("Not implemented");
+        if (!board.isValidSquare(startPosition)) { return null; }
+        ChessPiece piece = board.getPiece(startPosition);
+        if (piece == null) { return null; }
+        return piece.pieceMoves(board);
     }
 
     /**
@@ -56,55 +56,49 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        throw new RuntimeException("Not implemented");
+        ChessPiece piece = board.getPiece(move.startPosition);
+        if(piece == null) { throw new InvalidMoveException("piece does not exist"); }
+        if(piece.getTeamColor() != getTeamTurn()) { throw new InvalidMoveException("wrong color"); }
+
+        boolean inValidMoves = false;
+        Collection<ChessMove> moves = validMoves(move.getStartPosition());
+        if(moves.isEmpty()) { throw new InvalidMoveException("no moves at start position"); }
+        for(ChessMove possibleMove : moves) {
+            if (possibleMove.equals(move)) { inValidMoves = true; break;}
+        }
+
+        if(inValidMoves) {
+            board.MovePiece(move);
+        }
     }
 
-    /**
-     * Determines if the given team is in check
-     *
-     * @param teamColor which team to check for check
-     * @return True if the specified team is in check
-     */
-    public boolean isInCheck(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
-    }
+    public boolean isInCheck(TeamColor teamColor) throws Exception {
+        // get king piece
+        // check queen moves for check
+        // check knight moves for check
 
-    /**
-     * Determines if the given team is in checkmate
-     *
-     * @param teamColor which team to check for checkmate
-     * @return True if the specified team is in checkmate
-     */
+        ChessPiece king = board.getPiece(ChessPiece.PieceType.KING, teamColor);
+        if(king == null) { throw new Exception("King is Missing"); }
+
+        ChessPiece tempQ = new ChessPiece()
+
+    }
     public boolean isInCheckmate(TeamColor teamColor) {
         throw new RuntimeException("Not implemented");
-    }
+        // get king piece
+        // check if king is in check
+        //  check if moving king exits check
+        //  check if moving other pieces resolves check
+        //      check if blocks check
+        //      check if stops piece from checking
 
-    /**
-     * Determines if the given team is in stalemate, which here is defined as having
-     * no valid moves
-     *
-     * @param teamColor which team to check for stalemate
-     * @return True if the specified team is in stalemate, otherwise false
-     */
+    }
     public boolean isInStalemate(TeamColor teamColor) {
         throw new RuntimeException("Not implemented");
     }
 
-    /**
-     * Sets this game's chessboard with a given board
-     *
-     * @param board the new board to use
-     */
-    public void setBoard(ChessBoard board) {
-        throw new RuntimeException("Not implemented");
-    }
-
-    /**
-     * Gets the current chessboard
-     *
-     * @return the chessboard
-     */
+    public void setBoard(ChessBoard board) { this.board = board; }
     public ChessBoard getBoard() {
-        throw new RuntimeException("Not implemented");
+        return board;
     }
 }

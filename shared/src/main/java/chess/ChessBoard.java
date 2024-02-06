@@ -57,19 +57,27 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-
         return squares[position.getRow() - 1][position.getColumn() - 1];
+    }
+    public ChessPiece getPiece(ChessPiece.PieceType type, ChessGame.TeamColor color) {
+        for(int i=1; i < 8; i++) {
+            for(int j=0; j < 8; j++) {
+                ChessPiece piece = getPiece(new ChessPosition(i,j));
+                if(piece.getTeamColor() == color && piece.getPieceType() == type) { return piece; }
+            }
+        }
+        return null;
     }
     public boolean positionExists(ChessPosition pos) {
         int col =  pos.getColumn();
         int row =  pos.getRow();
         return col >= 1 && col <= 8 && row >= 1 && row <= 8;
     }
-
-    /**
-     * Sets the board to the default starting board
-     * (How the game of chess normally starts)
-     */
+    public void MovePiece(ChessMove move) {
+        ChessPiece piece = getPiece(move.startPosition);
+        squares[move.startPosition.getRow()][move.startPosition.getColumn()] = null;
+        squares[move.endPosition.getRow()][move.endPosition.getColumn()] = piece;
+    }
     public void resetBoard() {
         squares = new ChessPiece[8][8];
         addPiece(new ChessPosition(1,1), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK));
@@ -107,6 +115,12 @@ public class ChessBoard {
         addPiece(new ChessPosition(7,6), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN));
         addPiece(new ChessPosition(7,7), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN));
         addPiece(new ChessPosition(7,8), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN));
+    }
+
+    public boolean isValidSquare(ChessPosition position) {
+        int row = position.getRow();
+        int col = position.getColumn();
+        return row >= 1 && row <= 8 && col >= 1 && col <= 8;
     }
 
     @Override
