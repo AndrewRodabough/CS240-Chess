@@ -60,8 +60,8 @@ public class ChessBoard {
         return squares[position.getRow() - 1][position.getColumn() - 1];
     }
     public ChessPiece getPiece(ChessPiece.PieceType type, ChessGame.TeamColor color) {
-        for(int i=1; i < 8; i++) {
-            for(int j=1; j < 8; j++) {
+        for(int i=1; i <= 8; i++) {
+            for(int j=1; j <= 8; j++) {
                 ChessPiece piece = getPiece(new ChessPosition(i,j));
                 if(piece == null) { continue; }
                 if(piece.getTeamColor() == color && piece.getPieceType() == type) { return piece; }
@@ -74,20 +74,23 @@ public class ChessBoard {
         int row =  pos.getRow();
         return col >= 1 && col <= 8 && row >= 1 && row <= 8;
     }
-    public void MovePiece(ChessMove move) {
+    public boolean MovePiece(ChessMove move) {
 
         ChessPiece piece = getPiece(move.startPosition);
+        if(piece == null) { return false; }
+
         if(move.promotionPiece != null) {
             addPiece(move.endPosition, new ChessPiece(piece.getTeamColor(), move.promotionPiece));
+            getPiece(move.endPosition).hasMoved = true;
             squares[move.startPosition.getRow() - 1][move.startPosition.getColumn() - 1] = null;
         }
         else {
-            squares[move.startPosition.getRow() - 1][move.startPosition.getColumn() - 1] = null;
-            piece.position = move.endPosition;
             squares[move.endPosition.getRow() - 1][move.endPosition.getColumn() - 1] = piece;
+            piece.position = move.endPosition;
+            piece.hasMoved = true;
+            squares[move.startPosition.getRow() - 1][move.startPosition.getColumn() - 1] = null;
         }
-
-
+        return true;
     }
     public void resetBoard() {
         squares = new ChessPiece[8][8];
@@ -128,6 +131,18 @@ public class ChessBoard {
         addPiece(new ChessPosition(7,8), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN));
     }
 
+    public ChessBoard copy() {
+        ChessBoard newBoard = new ChessBoard();
+        for(int i=1; i<=8; i++) {
+            for(int j=1; j<=8; j++) {
+                ChessPiece piece = getPiece(new ChessPosition(i,j));
+                if(piece == null) { continue; }
+                newBoard.addPiece(new ChessPosition(i,j), piece);
+            }
+        }
+        return newBoard;
+    }
+
     public boolean isValidSquare(ChessPosition position) {
         int row = position.getRow();
         int col = position.getColumn();
@@ -138,8 +153,8 @@ public class ChessBoard {
     public int hashCode() {
 
         int hash = 0;
-        for(int i=1; i < 8; i++) {
-            for(int j=0; j < 8; j++) {
+        for(int i=1; i <= 8; i++) {
+            for(int j=1; j <= 8; j++) {
                 ChessPiece piece = getPiece(new ChessPosition(i,j));
                 if(piece != null) {
                     hash += piece.hashCode();
@@ -155,8 +170,8 @@ public class ChessBoard {
         ChessBoard o = (ChessBoard) obj;
 
         boolean isSame = true;
-        for(int i=1; i < 8; i++) {
-            for(int j=1; j < 8; j++) {
+        for(int i=1; i <= 8; i++) {
+            for(int j=1; j <= 8; j++) {
                 ChessPiece piece = getPiece(new ChessPosition(i,j));
                 ChessPiece piece2 = o.getPiece(new ChessPosition(i,j));
                 if(piece != null) {
