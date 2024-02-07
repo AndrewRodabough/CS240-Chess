@@ -1,8 +1,5 @@
 package chess;
 
-import chess.piece.King;
-
-import javax.swing.text.Position;
 import java.util.Collection;
 import java.util.ArrayList;
 
@@ -10,14 +7,12 @@ public class ChessGame {
 
     private chess.ChessBoard board = new ChessBoard();
     private ChessGame.TeamColor turn = ChessGame.TeamColor.WHITE;
-    private boolean currentGame = false;
 
     public ChessGame() {
 
     }
     public void initializeGame() {
         turn = ChessGame.TeamColor.WHITE;
-        currentGame = true;
         board.resetBoard();
     }
     public ChessGame.TeamColor getTeamTurn() { return turn; }
