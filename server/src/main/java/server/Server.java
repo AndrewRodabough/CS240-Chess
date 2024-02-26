@@ -1,16 +1,8 @@
 package server;
 
-import server.websocket.WebSocketHandler;
-
 import spark.*;
 
 public class Server {
-
-    private final WebSocketHandler webSocketHandler;
-
-    public Server() {
-        webSocketHandler = new WebSocketHandler();
-    }
 
     public int run(int desiredPort) {
         Spark.port(desiredPort);
@@ -18,13 +10,13 @@ public class Server {
         Spark.staticFiles.location("web");
 
         // Register your endpoints and handle exceptions here.
-        Spark.post("/user", this::CreateGameHandler);
-        Spark.post("/user", this::LoginHandler);
-        Spark.post("/user", this::RegistrationHandler);
-        Spark.get("/user", this::JoinGameHandler);
-        Spark.get("/user", this::ListGamesHandler);
-        Spark.delete("/user", this::ClearApplicationHandler);
-        Spark.delete("/user", this::LogoutHandler);
+        Spark.delete("/db", this::ClearApplicationHandler);
+        Spark.post("/user", this::RegisterHandler);
+        Spark.post("/session", this::LoginHandler);
+        Spark.delete("/session", this::LogoutHandler);
+        Spark.get("/game", this::ListGamesHandler);
+        Spark.post("/game", this::CreateGameHandler);
+        Spark.put("/game", this::JoinGameHandler);
         //Spark.exception(ResponseException.class, this::exceptionHandler);
 
         Spark.awaitInitialization();
@@ -57,7 +49,7 @@ public class Server {
     private Object LogoutHandler(Request req, Response res) {
         return "Not Implemented";
     }
-    private Object RegistrationHandler(Request req, Response res) {
+    private Object RegisterHandler(Request req, Response res) {
         return "Not Implemented";
     }
 
