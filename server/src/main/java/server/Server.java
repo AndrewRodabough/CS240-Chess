@@ -1,10 +1,6 @@
 package server;
 
-import com.google.gson.Gson;
-import dataAccess.DataAccess;
 import server.websocket.WebSocketHandler;
-import service.Service;
-import server.ResponseException;
 
 import spark.*;
 
@@ -21,16 +17,14 @@ public class Server {
 
         Spark.staticFiles.location("web");
 
-        Spark.webSocket("/connect", webSocketHandler);
-
         // Register your endpoints and handle exceptions here.
-        Spark.post("/chess", this::CreateGameHandler);
-        Spark.post("/chess", this::LoginHandler);
-        Spark.post("/chess", this::RegistrationHandler);
-        Spark.get("/chess", this::JoinGameHandler);
-        Spark.get("/chess", this::ListGamesHandler);
-        Spark.delete("/chess", this::ClearApplicationHandler);
-        Spark.delete("/chess", this::LogoutHandler);
+        Spark.post("/user", this::CreateGameHandler);
+        Spark.post("/user", this::LoginHandler);
+        Spark.post("/user", this::RegistrationHandler);
+        Spark.get("/user", this::JoinGameHandler);
+        Spark.get("/user", this::ListGamesHandler);
+        Spark.delete("/user", this::ClearApplicationHandler);
+        Spark.delete("/user", this::LogoutHandler);
         //Spark.exception(ResponseException.class, this::exceptionHandler);
 
         Spark.awaitInitialization();
@@ -40,7 +34,10 @@ public class Server {
     public int port() {
         return Spark.port();
     }
-    public void stop() { Spark.stop(); Spark.awaitStop(); }
+    public void stop() {
+        Spark.stop();
+        Spark.awaitStop();
+    }
 
     private Object ClearApplicationHandler(Request req, Response res) {
         return "Not Implemented";
