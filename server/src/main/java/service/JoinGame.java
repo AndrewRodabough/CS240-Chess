@@ -16,7 +16,7 @@ public class JoinGame{
 
         if (Objects.equals(playerColor, "WHITE")) {
             if(game.whiteUsername() == null) {
-                GameDAOMemory.updateGame(gameID, auth.username(), game.blackUsername());
+                GameDAOMemory.updateGameUser(gameID, auth.username(), game.blackUsername());
             }
             else {
                 return false;
@@ -24,7 +24,7 @@ public class JoinGame{
         }
         else if (Objects.equals(playerColor, "BLACK")) {
             if(game.blackUsername() == null) {
-                GameDAOMemory.updateGame(gameID, game.whiteUsername(), auth.username());
+                GameDAOMemory.updateGameUser(gameID, game.whiteUsername(), auth.username());
             }
             else {
                 return false;

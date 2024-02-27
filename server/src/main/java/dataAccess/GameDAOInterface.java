@@ -10,7 +10,7 @@ abstract class GameDAOInterface implements DAOInterface{
     static boolean nameExists(String name) { return false; }
     static GameData getGame(int id) { return null; }
     static Collection<GameData> listGames() { return null; }
-    static boolean updateGame(int id, String whiteUsername, String blackUsername) {return false; }
+    static boolean updateGameUser(int id, String whiteUsername, String blackUsername) {return false; }
     public static boolean clear() {
         return true;
     }

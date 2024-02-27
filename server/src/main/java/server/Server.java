@@ -37,8 +37,4 @@ public class Server {
         Spark.stop();
         Spark.awaitStop();
     }
-
-    /*
-    private void exceptionHandler(ResponseException ex, Request req, Response res) { res.status(ex.StatusCode()); }
-     */
 }

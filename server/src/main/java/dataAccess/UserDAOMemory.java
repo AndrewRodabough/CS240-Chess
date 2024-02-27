@@ -12,7 +12,7 @@ public class UserDAOMemory extends UserDAOInterface{
         return true;
     }
     public static UserData getUser(String username) {
-        if(!map.containsKey(username)) { return null; }
+        if(!map.containsKey(username)) { return null; } // no user exists
         return map.get(username);
     }
     public static boolean clear() {

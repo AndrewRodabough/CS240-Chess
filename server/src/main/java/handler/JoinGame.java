@@ -2,40 +2,54 @@ package handler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
-import model.GameData;
 import service.Authorize;
 import spark.Request;
 import spark.Response;
 
 public class JoinGame implements Handler {
     public Object handler(Request req, Response res) {
+        String message;
+
+        // authorize the user with authorize service
         String token = req.headers("authorization");
         boolean authorized = Authorize.Run(token);
 
         if(!authorized) {
+            // not authorized
             res.status(401);
-            String message = "{\"message\": \"Error: unauthorized\"}";
-            return new JsonParser().parse(message).getAsJsonObject();
-        }
-
-        JoinGameMessage message = new Gson().fromJson(req.body(), JoinGameMessage.class);
-
-        if(message.gameID() == 0) {
-            res.status(400);
-            String message1 = "{\"message\": \"Error: bad request\"}";
-            return new JsonParser().parse(message1).getAsJsonObject();
-        }
-
-        boolean status = service.JoinGame.Run(token, message.playerColor(), message.gameID());
-
-        res.status(status? 200 : 403);
-        if(!status) {
-            String message2 = "{\"message\": \"Error: already taken\"}";
-            return new JsonParser().parse(message2).getAsJsonObject();
+            message = "{\"message\": \"Error: unauthorized\"}";
         }
         else {
-            return"";
+            // authorized
+
+            // parse json
+            JoinGameRequest request = new Gson().fromJson(req.body(), JoinGameRequest.class);
+
+            if(request.gameID() == 0) {
+                // request invalid (game id not provided)
+                res.status(400);
+                message = "{\"message\": \"Error: bad request\"}";
+            }
+            else {
+                // request valid
+
+                // run service
+                boolean status = service.JoinGame.Run(token, request.playerColor(), request.gameID());
+
+                res.status(status? 200 : 403);
+                if(!status) {
+                    // service ran unsuccessfully
+                    message = "{\"message\": \"Error: already taken\"}";
+                }
+                else {
+                    // service ran successfully
+                    return"";
+                }
+            }
         }
+
+        // return message as json
+        return new JsonParser().parse(message).getAsJsonObject();
     }
-    record JoinGameMessage(String playerColor, int gameID) {}
+    record JoinGameRequest(String playerColor, int gameID) {}
 }

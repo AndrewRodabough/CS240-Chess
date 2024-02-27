@@ -17,15 +17,15 @@ public class AuthDAOMemory extends AuthDAOInterface {
         return true;
     }
     public static AuthData getAuth(String username) {
-        if(!mapU.containsKey(username)) { return null; }
+        if(!mapU.containsKey(username)) { return null; } // username does not have Auth
         return mapU.get(username);
     }
     public static AuthData getAuthFromToken(String authToken) {
-        if(!mapT.containsKey(authToken)) { return null; }
+        if(!mapT.containsKey(authToken)) { return null; } // token does not exist
         return mapT.get(authToken);
     }
     public static boolean deleteAuth(String authToken) {
-        if(!mapT.containsKey(authToken)) { return false; }
+        if(!mapT.containsKey(authToken)) { return false; } // token does not exist
         AuthData auth = mapT.get(authToken);
         mapT.remove(authToken);
         mapU.remove(auth.username());

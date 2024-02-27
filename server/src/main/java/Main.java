@@ -3,7 +3,7 @@ import server.Server;
 public class Main {
     public static void main(String[] args) {
         try {
-            int port = 6969;
+            int port = 8080;
 
             // sets port if specified in command line
             if (args.length >= 1) {

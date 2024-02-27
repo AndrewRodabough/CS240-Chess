@@ -1,9 +1,6 @@
 package handler;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonParser;
-import model.AuthData;
-import model.UserData;
 import spark.Request;
 import spark.Response;
 
@@ -12,14 +9,16 @@ public class Logout implements Handler {
 
         String token = req.headers("authorization");
 
-        boolean sucess = service.Logout.Run(token);
-        res.status(sucess? 200 : 401);
+        //run service
+        boolean success = service.Logout.Run(token);
 
-        if (!sucess) {
+        res.status(success? 200 : 401);
+        if (!success) {
+            // invalid authToken
             String message = "{\"message\": \"Error: unauthorized\"}";
             return new JsonParser().parse(message).getAsJsonObject();
-
         }
+        // successful logout
         return "";
     }
 }
