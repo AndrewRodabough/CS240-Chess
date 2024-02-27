@@ -10,9 +10,9 @@ import java.util.Random;
 
 public class GameDAOMemory extends GameDAOInterface {
     static List<GameData> list = new ArrayList<>();
-    static boolean CreateGame(String gameName) {
+    public static int CreateGame(String gameName) {
 
-        if(nameExists(gameName)) {return false; }
+        if(nameExists(gameName)) {return -1; }
 
         Random random = new Random();
         int num;
@@ -21,21 +21,21 @@ public class GameDAOMemory extends GameDAOInterface {
         } while (idExists(num));
 
         list.add(new GameData(num, null, null, gameName, new ChessGame()));
-        return true;
+        return num;
     }
-    static boolean idExists(int id) {
+    public static boolean idExists(int id) {
         for(GameData game : list) {
             if(game.gameID() == id) { return true; }
         }
         return false;
     }
-    static boolean nameExists(String name) {
+    public static boolean nameExists(String name) {
         for(GameData game : list) {
             if(game.gameName() == name) { return true; }
         }
         return false;
     }
-    static ChessGame GetGame(int id) {
+    public static ChessGame GetGame(int id) {
         for(GameData game : list) {
             if(game.gameID() == id) { return game.game(); }
         }

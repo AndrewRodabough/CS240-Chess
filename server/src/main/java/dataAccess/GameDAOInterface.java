@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Random;
 
 abstract class GameDAOInterface implements DAOInterface{
-    static boolean CreateGame(String gameName) { return false; }
+    static int CreateGame(String gameName) { return -1; }
     static boolean idExists(int id) { return false; }
     static boolean nameExists(String name) { return false; }
     static ChessGame GetGame(int id) { return null; }
