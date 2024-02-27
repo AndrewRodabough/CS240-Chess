@@ -31,11 +31,8 @@ public class JoinGame{
                 return false;
             }
         }
-        else if (playerColor == ""){
-            return true;
-        }
         else {
-            return false;
+            return true;
         }
         return true;
     }

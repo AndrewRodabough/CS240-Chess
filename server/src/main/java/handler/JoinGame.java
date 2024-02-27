@@ -20,7 +20,8 @@ public class JoinGame implements Handler {
 
         JoinGameMessage message = new Gson().fromJson(req.body(), JoinGameMessage.class);
 
-        if(message.gameID() == 0 || message.playerColor == null) {
+        if(message.gameID() == 0) {
+            res.status(400);
             String message1 = "{\"message\": \"Error: bad request\"}";
             return new JsonParser().parse(message1).getAsJsonObject();
         }
