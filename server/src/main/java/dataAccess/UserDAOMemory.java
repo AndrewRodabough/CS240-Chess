@@ -19,6 +19,4 @@ public class UserDAOMemory extends UserDAOInterface{
         map.clear();
         return true;
     }
-
-
 }

@@ -57,6 +57,7 @@ public class GameDAOMemory extends GameDAOInterface {
         return true;
     }
     public static boolean Clear() {
+        list.clear();
         return true;
     }
 }

@@ -1,13 +1,14 @@
 package service;
 
+import dataAccess.AuthDAOMemory;
+import dataAccess.GameDAOMemory;
+import dataAccess.UserDAOMemory;
+
 public class Clear{
-    public static Object Run() {
-        boolean result = false;
-        result = (boolean) dataAccess.UserDAOMemory.Clear();
-        if (!result) { return false; }
-        result = (boolean) dataAccess.AuthDAOMemory.Clear();
-        if (!result) { return false; }
-        result = (boolean) dataAccess.GameDAOMemory.Clear();
-        return result;
+    public static boolean Run() {
+        dataAccess.UserDAOMemory.Clear();
+        dataAccess.AuthDAOMemory.Clear();
+        dataAccess.GameDAOMemory.Clear();
+        return true;
     }
 }

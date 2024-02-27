@@ -22,7 +22,7 @@ public class ListGames implements Handler {
             return new JsonParser().parse(message).getAsJsonObject();
         }
         Collection<GameData> game = service.ListGames.Run();
-        if(game.isEmpty()) { return "";}
+        //if(game.isEmpty()) { return "";}
         return new Gson().toJson(new games(game));
     }
 
