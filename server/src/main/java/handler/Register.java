@@ -26,21 +26,5 @@ public class Register implements Handler {
             return new JsonParser().parse(message).getAsJsonObject();
         }
         return new Gson().toJson(auth);
-
-        /*
-        UserData user = new Gson().fromJson(req.body(), UserData.class);
-        AuthData auth = service.Register.Run(user);
-        res.status(auth == null ? 403 : 200);
-        if(auth == null) {
-            String message = "{\"message\": \"Error: already taken\"}";
-            //res.body(message);
-            return new JsonParser().parse(message).getAsJsonObject();
-            //return new Gson().toJson(res.body());
-        }
-        else {
-            //res.body(new Gson().toJson(auth));
-            return new Gson().toJson(auth);
-        }
-         */
     }
 }

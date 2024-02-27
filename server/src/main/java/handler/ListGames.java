@@ -21,7 +21,11 @@ public class ListGames implements Handler {
             String message = "{\"message\": \"Error: unauthorized\"}";
             return new JsonParser().parse(message).getAsJsonObject();
         }
-        Collection<GameData> games = service.ListGames.Run();
-        return new Gson().toJson(games);
+        Collection<GameData> game = service.ListGames.Run();
+        if(game.isEmpty()) { return "";}
+        return new Gson().toJson(new games(game));
+    }
+
+    record games(Collection<GameData> games) {
     }
 }

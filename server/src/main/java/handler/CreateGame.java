@@ -25,6 +25,5 @@ public class CreateGame implements Handler {
         res.status(200);
         String message = "{\"gameID\": \""+ id +"\"}";
         return new JsonParser().parse(message).getAsJsonObject();
-
     }
 }

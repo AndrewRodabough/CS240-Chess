@@ -35,17 +35,26 @@ public class GameDAOMemory extends GameDAOInterface {
         }
         return false;
     }
-    public static ChessGame GetGame(int id) {
+    public static GameData GetGame(int id) {
         for(GameData game : list) {
-            if(game.gameID() == id) { return game.game(); }
+            if(game.gameID() == id) { return game; }
         }
         return null;
     }
     public static Collection<GameData> ListGames() {
         return list;
     }
-    public static void UpdateGame() {
-
+    public static boolean UpdateGame(int id, String whiteusername, String blackUsername) {
+        int index = -1;
+        for(int i=0; i<list.size(); i++) {
+            if(list.get(i).gameID() == id) {
+                index = i;
+                break;
+            }
+        }
+        if(index == -1) { return false; }
+        list.set(index, new GameData(id, whiteusername, blackUsername, list.get(index).gameName(), list.get(index).game()));
+        return true;
     }
     public static boolean Clear() {
         return true;
