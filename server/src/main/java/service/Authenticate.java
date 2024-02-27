@@ -1,6 +1,6 @@
 package service;
 
-public class CreateGame{
+public class Authenticate {
     public Object Run() {
         return "Not Implemented";
     }

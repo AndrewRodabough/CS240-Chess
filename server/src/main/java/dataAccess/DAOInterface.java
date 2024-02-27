@@ -1,5 +1,7 @@
 package dataAccess;
 
 abstract interface DAOInterface{
-    abstract void Clear();
+    static boolean Clear() {
+        return false;
+    }
 }

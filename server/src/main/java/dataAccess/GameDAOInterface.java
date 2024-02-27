@@ -1,8 +1,11 @@
 package dataAccess;
 
 abstract class GameDAOInterface implements DAOInterface{
-    abstract void CreateGame();
-    abstract void GetGame();
-    abstract void ListGames();
-    abstract void UpdateGame();
+    static void CreateGame() {}
+    static void GetGame() {}
+    static void ListGames() {}
+    static void UpdateGame() {}
+    public static boolean Clear() {
+        return true;
+    }
 }

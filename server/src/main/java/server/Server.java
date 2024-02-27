@@ -17,13 +17,13 @@ public class Server {
         Spark.staticFiles.location("web");
 
         // Register your endpoints and handle exceptions here.
-        Spark.delete("/db", this.clear::handler);
-        Spark.post("/user", this.register::handler);
-        Spark.post("/session", this.login::handler);
-        Spark.delete("/session", this.logout::handler);
-        Spark.get("/game", this.listGames::handler);
-        Spark.post("/game", this.createGame::handler);
-        Spark.put("/game", this.joinGame::handler);
+        Spark.delete("/db", (req, res) -> clear.handler(req,res));
+        Spark.post("/user", (req, res) -> register.handler(req,res));
+        Spark.post("/session", (req, res) -> login.handler(req,res));
+        Spark.delete("/session", (req, res) -> logout.handler(req,res));
+        Spark.get("/game", (req, res) -> listGames.handler(req,res));
+        Spark.post("/game", (req, res) -> createGame.handler(req,res));
+        Spark.put("/game", (req, res) -> joinGame.handler(req,res));
         //Spark.exception(ResponseException.class, this::exceptionHandler);
 
         Spark.awaitInitialization();
@@ -37,7 +37,6 @@ public class Server {
         Spark.stop();
         Spark.awaitStop();
     }
-
 
     /*
     private void exceptionHandler(ResponseException ex, Request req, Response res) { res.status(ex.StatusCode()); }

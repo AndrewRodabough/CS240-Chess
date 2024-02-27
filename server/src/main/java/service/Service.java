@@ -1,4 +1,6 @@
 package service;
 
-public class Service {
+public interface Service {
+
+    public abstract Object Run();
 }

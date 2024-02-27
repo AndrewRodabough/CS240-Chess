@@ -1,19 +1,19 @@
 package dataAccess;
 
 public class GameDAOMemory extends GameDAOInterface {
-    public void CreateGame() {
+    public static void CreateGame() {
 
     }
-    public void GetGame() {
+    public static void GetGame() {
 
     }
-    public void ListGames() {
+    public static void ListGames() {
 
     }
-    public void UpdateGame() {
+    public static void UpdateGame() {
 
     }
-    public void Clear() {
-
+    public static boolean Clear() {
+        return true;
     }
 }
