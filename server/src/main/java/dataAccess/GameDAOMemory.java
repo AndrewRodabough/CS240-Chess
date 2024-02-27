@@ -3,14 +3,11 @@ package dataAccess;
 import chess.ChessGame;
 import model.GameData;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GameDAOMemory extends GameDAOInterface {
     static List<GameData> list = new ArrayList<>();
-    public static int CreateGame(String gameName) {
+    public static int createGame(String gameName) {
 
         if(nameExists(gameName)) {return -1; }
 
@@ -31,20 +28,20 @@ public class GameDAOMemory extends GameDAOInterface {
     }
     public static boolean nameExists(String name) {
         for(GameData game : list) {
-            if(game.gameName() == name) { return true; }
+            if(Objects.equals(game.gameName(), name)) { return true; }
         }
         return false;
     }
-    public static GameData GetGame(int id) {
+    public static GameData getGame(int id) {
         for(GameData game : list) {
             if(game.gameID() == id) { return game; }
         }
         return null;
     }
-    public static Collection<GameData> ListGames() {
+    public static Collection<GameData> listGames() {
         return list;
     }
-    public static boolean UpdateGame(int id, String whiteusername, String blackUsername) {
+    public static boolean updateGame(int id, String whiteUsername, String blackUsername) {
         int index = -1;
         for(int i=0; i<list.size(); i++) {
             if(list.get(i).gameID() == id) {
@@ -53,10 +50,10 @@ public class GameDAOMemory extends GameDAOInterface {
             }
         }
         if(index == -1) { return false; }
-        list.set(index, new GameData(id, whiteusername, blackUsername, list.get(index).gameName(), list.get(index).game()));
+        list.set(index, new GameData(id, whiteUsername, blackUsername, list.get(index).gameName(), list.get(index).game()));
         return true;
     }
-    public static boolean Clear() {
+    public static boolean clear() {
         list.clear();
         return true;
     }

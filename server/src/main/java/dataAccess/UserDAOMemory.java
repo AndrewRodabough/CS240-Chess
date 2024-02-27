@@ -7,15 +7,15 @@ import model.UserData;
 public class UserDAOMemory extends UserDAOInterface{
     static Map<String, UserData> map = new HashMap<>();
 
-    public static boolean CreateUser(UserData user) {
+    public static boolean createUser(UserData user) {
         map.put(user.username(), user);
         return true;
     }
-    public static UserData GetUser(String username) {
+    public static UserData getUser(String username) {
         if(!map.containsKey(username)) { return null; }
         return map.get(username);
     }
-    public static boolean Clear() {
+    public static boolean clear() {
         map.clear();
         return true;
     }

@@ -1,14 +1,10 @@
 package service;
 
-import dataAccess.AuthDAOMemory;
-import dataAccess.GameDAOMemory;
-import dataAccess.UserDAOMemory;
-
 public class Clear{
     public static boolean Run() {
-        dataAccess.UserDAOMemory.Clear();
-        dataAccess.AuthDAOMemory.Clear();
-        dataAccess.GameDAOMemory.Clear();
+        dataAccess.UserDAOMemory.clear();
+        dataAccess.AuthDAOMemory.clear();
+        dataAccess.GameDAOMemory.clear();
         return true;
     }
 }

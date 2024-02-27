@@ -9,10 +9,10 @@ import java.util.Objects;
 
 public class Login{
     public static AuthData Run(UserData user) {
-        UserData userInDB = UserDAOMemory.GetUser(user.username());
+        UserData userInDB = UserDAOMemory.getUser(user.username());
         if(userInDB == null) { return null;}
         if(!(Objects.equals(userInDB.username(), user.username()) && Objects.equals(userInDB.password(), user.password()))) { return null; }
-        AuthDAOMemory.CreateAuth(user.username());
-        return AuthDAOMemory.GetAuth(user.username());
+        AuthDAOMemory.createAuth(user.username());
+        return AuthDAOMemory.getAuth(user.username());
     }
 }

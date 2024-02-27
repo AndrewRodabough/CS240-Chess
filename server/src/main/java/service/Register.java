@@ -7,9 +7,9 @@ import model.UserData;
 
 public class Register{
     public static AuthData Run(UserData user) {
-        if(UserDAOMemory.GetUser(user.username()) != null) { return null; } // user taken
-        UserDAOMemory.CreateUser(user);
-        AuthDAOMemory.CreateAuth(user.username());
-        return AuthDAOMemory.GetAuth(user.username());
+        if(UserDAOMemory.getUser(user.username()) != null) { return null; } // user taken
+        UserDAOMemory.createUser(user);
+        AuthDAOMemory.createAuth(user.username());
+        return AuthDAOMemory.getAuth(user.username());
     }
 }

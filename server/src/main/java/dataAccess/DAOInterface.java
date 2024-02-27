@@ -1,7 +1,7 @@
 package dataAccess;
 
 abstract interface DAOInterface{
-    static boolean Clear() {
+    static boolean clear() {
         return false;
     }
 }

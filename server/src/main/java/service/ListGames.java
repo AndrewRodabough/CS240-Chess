@@ -7,6 +7,6 @@ import java.util.Collection;
 
 public class ListGames{
     public static Collection<GameData> Run() {
-        return GameDAOMemory.ListGames();
+        return GameDAOMemory.listGames();
     }
 }

@@ -1,6 +1,5 @@
 package service;
 
-import chess.ChessGame;
 import dataAccess.AuthDAOMemory;
 import dataAccess.GameDAOMemory;
 import model.AuthData;
@@ -10,14 +9,14 @@ import java.util.Objects;
 
 public class JoinGame{
     public static boolean Run(String authToken, String playerColor, int gameID) {
-        GameData game = GameDAOMemory.GetGame(gameID);
+        GameData game = GameDAOMemory.getGame(gameID);
         if (game == null) { return false; }
 
-        AuthData auth = AuthDAOMemory.GetAuthFromToken(authToken);
+        AuthData auth = AuthDAOMemory.getAuthFromToken(authToken);
 
         if (Objects.equals(playerColor, "WHITE")) {
             if(game.whiteUsername() == null) {
-                GameDAOMemory.UpdateGame(gameID, auth.username(), game.blackUsername());
+                GameDAOMemory.updateGame(gameID, auth.username(), game.blackUsername());
             }
             else {
                 return false;
@@ -25,7 +24,7 @@ public class JoinGame{
         }
         else if (Objects.equals(playerColor, "BLACK")) {
             if(game.blackUsername() == null) {
-                GameDAOMemory.UpdateGame(gameID, game.whiteUsername(), auth.username());
+                GameDAOMemory.updateGame(gameID, game.whiteUsername(), auth.username());
             }
             else {
                 return false;
