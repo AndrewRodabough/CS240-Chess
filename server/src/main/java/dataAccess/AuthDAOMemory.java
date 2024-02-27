@@ -20,8 +20,16 @@ public class AuthDAOMemory extends AuthDAOInterface {
         if(!mapU.containsKey(username)) { return null; }
         return mapU.get(username);
     }
-    public static boolean DeleteAuth(AuthData auth) {
-        return false;
+    public static AuthData GetAuthFromToken(String authToken) {
+        if(!mapT.containsKey(authToken)) { return null; }
+        return mapT.get(authToken);
+    }
+    public static boolean DeleteAuth(String authToken) {
+        if(!mapT.containsKey(authToken)) { return false; }
+        AuthData auth = mapT.get(authToken);
+        mapT.remove(authToken);
+        mapU.remove(auth.username());
+        return true;
     }
     public static boolean Clear() {
         mapT.clear();

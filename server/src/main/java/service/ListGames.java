@@ -1,7 +1,12 @@
 package service;
 
+import dataAccess.GameDAOMemory;
+import model.GameData;
+
+import java.util.Collection;
+
 public class ListGames{
-    public Object Run() {
-        return "Not Implemented";
+    public static Collection<GameData> Run() {
+        return GameDAOMemory.ListGames();
     }
 }
