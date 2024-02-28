@@ -43,7 +43,7 @@ public class JoinGame implements Handler {
                 }
                 else {
                     // service ran successfully
-                    return"";
+                    return"{}";
                 }
             }
         }

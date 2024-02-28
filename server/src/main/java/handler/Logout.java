@@ -19,6 +19,6 @@ public class Logout implements Handler {
             return new JsonParser().parse(message).getAsJsonObject();
         }
         // successful logout
-        return "";
+        return "{}";
     }
 }

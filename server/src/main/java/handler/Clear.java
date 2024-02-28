@@ -8,7 +8,7 @@ public class Clear implements Handler{
 
         boolean result = service.Clear.Run();
         res.status(result? 200 : 500);
-        return "";
+        return "{}";
     }
 }
 
