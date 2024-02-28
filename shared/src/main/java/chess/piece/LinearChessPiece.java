@@ -24,11 +24,11 @@ public class LinearChessPiece extends ChessPiece {
         diagonalVec.add(new ChessPosition(1,1));
         diagonalVec.add(new ChessPosition(1,-1));
     }
-    public LinearChessPiece (ChessGame.TeamColor pieceColor, ChessPiece.PieceType type, int MaxSpaces, boolean Orthogonal, boolean Diagonal) {
+    public LinearChessPiece (ChessGame.TeamColor pieceColor, ChessPiece.PieceType type, int maxSpaces, boolean orthogonal, boolean diagonal) {
         super(pieceColor, type);
-        maxSpaces = MaxSpaces;
-        orthogonal = Orthogonal;
-        diagonal = Diagonal;
+        this.maxSpaces = maxSpaces;
+        this.orthogonal = orthogonal;
+        this.diagonal = diagonal;
     }
 
     protected LinearChessPiece (ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
@@ -39,6 +39,13 @@ public class LinearChessPiece extends ChessPiece {
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> validMoves = new ArrayList<>();
 
+        ChessPosition currentPos;
+        getMoves(board, myPosition, validMoves, diagonal, diagonalVec);
+        getMoves(board, myPosition, validMoves, orthogonal, orthogonalVec);
+        return validMoves;
+    }
+
+    private void getMoves(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> validMoves, boolean diagonal, List<ChessPosition> diagonalVec) {
         ChessPosition currentPos;
         if(diagonal) {
             for(ChessPosition vec : diagonalVec) {
@@ -53,20 +60,6 @@ public class LinearChessPiece extends ChessPiece {
                 }
             }
         }
-        if(orthogonal) {
-            for (ChessPosition vec : orthogonalVec) {
-                currentPos = myPosition;
-                for(int j = 0; j != maxSpaces; j++) {
-                    ChessPosition nextPos = currentPos.add(vec);
-                    if(!board.positionExists(nextPos)) { break; }
-                    ChessPiece piece = board.getPiece(nextPos);
-                    if(piece == null) { validMoves.add(new ChessMove(myPosition, nextPos, null)); currentPos = nextPos; continue; }
-                    if(piece.getTeamColor() != this.color) { validMoves.add(new ChessMove(myPosition, nextPos, null)); break; }
-                    else { break;}
-                }
-            }
-        }
-        return validMoves;
     }
 
     @Override

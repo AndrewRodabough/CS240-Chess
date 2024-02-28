@@ -36,16 +36,7 @@ public class Pawn extends FiniteChessPiece {
             ChessPiece piece = board.getPiece(position.add(move2));
 
             if (piece == null) {
-                if (color.ordinal() == Color.BLACK.ordinal() && position.add(move2).getRow() == 1 ||
-                        color.ordinal() == Color.WHITE.ordinal() && position.add(move2).getRow() == 8 ) {
-                    validMoves.add(new ChessMove(position, position.add(move2), PieceType.QUEEN));
-                    validMoves.add(new ChessMove(position, position.add(move2), PieceType.ROOK));
-                    validMoves.add(new ChessMove(position, position.add(move2), PieceType.BISHOP));
-                    validMoves.add(new ChessMove(position, position.add(move2), PieceType.KNIGHT));
-                }
-                else {
-                    validMoves.add(new ChessMove(position, position.add(move2), null));
-                }
+                getMoves(position, validMoves, move2);
             }
         }
         for(ChessPosition move : possibleCaptures)
@@ -56,16 +47,7 @@ public class Pawn extends FiniteChessPiece {
             ChessPiece piece = board.getPiece(position.add(move2));
 
             if (piece != null && piece.getTeamColor() != this.color) {
-                if (color.ordinal() == Color.BLACK.ordinal() && position.add(move2).getRow() == 1 ||
-                        color.ordinal() == Color.WHITE.ordinal() && position.add(move2).getRow() == 8 ) {
-                    validMoves.add(new ChessMove(position, position.add(move2), PieceType.QUEEN));
-                    validMoves.add(new ChessMove(position, position.add(move2), PieceType.ROOK));
-                    validMoves.add(new ChessMove(position, position.add(move2), PieceType.BISHOP));
-                    validMoves.add(new ChessMove(position, position.add(move2), PieceType.KNIGHT));
-                }
-                else {
-                    validMoves.add(new ChessMove(position, position.add(move2), null));
-                }
+                getMoves(position, validMoves, move2);
             }
         }
         if (!hasMoved)
@@ -81,5 +63,18 @@ public class Pawn extends FiniteChessPiece {
             }
         }
         return validMoves;
+    }
+
+    private void getMoves(ChessPosition position, List<ChessMove> validMoves, ChessPosition move2) {
+        if (color.ordinal() == Color.BLACK.ordinal() && position.add(move2).getRow() == 1 ||
+                color.ordinal() == Color.WHITE.ordinal() && position.add(move2).getRow() == 8 ) {
+            validMoves.add(new ChessMove(position, position.add(move2), PieceType.QUEEN));
+            validMoves.add(new ChessMove(position, position.add(move2), PieceType.ROOK));
+            validMoves.add(new ChessMove(position, position.add(move2), PieceType.BISHOP));
+            validMoves.add(new ChessMove(position, position.add(move2), PieceType.KNIGHT));
+        }
+        else {
+            validMoves.add(new ChessMove(position, position.add(move2), null));
+        }
     }
 }
