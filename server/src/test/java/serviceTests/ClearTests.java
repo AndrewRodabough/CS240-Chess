@@ -1,4 +1,4 @@
-package servceTests;
+package serviceTests;
 
 import org.junit.jupiter.api.*;
 

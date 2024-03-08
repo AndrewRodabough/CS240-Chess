@@ -1,4 +1,4 @@
-package servceTests;
+package serviceTests;
 
 import model.AuthData;
 import model.UserData;

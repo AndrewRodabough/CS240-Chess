@@ -1,4 +1,4 @@
-package servceTests;
+package serviceTests;
 
 import model.AuthData;
 import model.GameData;
@@ -7,20 +7,28 @@ import org.junit.jupiter.api.*;
 
 import java.util.Collection;
 
-public class ListGameTests {
+public class CreateGameTests {
     @Test
     public void RunPositive() {
         service.Clear.Run();
         UserData user = new UserData("bob", "password", "bob@bob.com");
         AuthData auth = service.Register.Run(user);
-        service.CreateGame.Run("game");
+        int id = service.CreateGame.Run("game");
         Collection<GameData> games = service.ListGames.Run();
-        Assertions.assertFalse(games.isEmpty());
+        for(GameData game: games) {
+            if(game.gameID() == id) {
+                return;
+            }
+        }
+        Assertions.fail();
     }
 
     @Test
     public void RunNegative() {
         service.Clear.Run();
+        UserData user = new UserData("bob", "password", "bob@bob.com");
+        AuthData auth = service.Register.Run(user);
+        int id = service.CreateGame.Run(null);
         Collection<GameData> games = service.ListGames.Run();
         Assertions.assertTrue(games.isEmpty());
     }
