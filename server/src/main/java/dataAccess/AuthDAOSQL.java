@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 //import dataAccess.DatabaseManager;
 
 public class AuthDAOSQL {
-    static boolean createAuth(String username) throws DataAccessException{
+    public static boolean createAuth(String username) throws DataAccessException{
         String authToken = UUID.randomUUID().toString();
 
         // establish connection
@@ -54,7 +54,7 @@ public class AuthDAOSQL {
         }
         return true;
     }
-    static AuthData getAuth(String username) throws DataAccessException{
+    public static AuthData getAuth(String username) throws DataAccessException{
         AuthData authData = null;
 
         // establish connection
@@ -97,7 +97,7 @@ public class AuthDAOSQL {
 
         return authData;
     }
-    static AuthData getAuthFromToken(String authToken) throws DataAccessException{
+    public static AuthData getAuthFromToken(String authToken) throws DataAccessException{
         AuthData authData = null;
 
         // establish connection
@@ -140,7 +140,7 @@ public class AuthDAOSQL {
 
         return authData;
     }
-    static boolean deleteAuth(String authToken) throws DataAccessException{
+    public static boolean deleteAuth(String authToken) throws DataAccessException{
         // establish connection
         try (Connection conn = DatabaseManager.getConnection()) {
             //connection established
@@ -178,7 +178,7 @@ public class AuthDAOSQL {
 
         return true;
     }
-    static boolean clear() throws DataAccessException{
+    public static boolean clear() throws DataAccessException{
         // establish connection
         try (Connection conn = DatabaseManager.getConnection()) {
             //connection established

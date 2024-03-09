@@ -1,5 +1,6 @@
 package service;
 
+import dataAccess.AuthDAOSQL;
 import dataAccess.AuthDAOMemory;
 import dataAccess.UserDAOMemory;
 import model.AuthData;
@@ -12,7 +13,21 @@ public class Login{
         UserData userInDB = UserDAOMemory.getUser(user.username());
         if(userInDB == null) { return null;}
         if(!(Objects.equals(userInDB.username(), user.username()) && Objects.equals(userInDB.password(), user.password()))) { return null; }
+
+        try {
+            AuthDAOSQL.createAuth(user.username());
+            return AuthDAOSQL.getAuth(user.username());
+        } catch (Exception e) {
+            return null;
+        }
+
+        /*
+        UserData userInDB = UserDAOMemory.getUser(user.username());
+        if(userInDB == null) { return null;}
+        if(!(Objects.equals(userInDB.username(), user.username()) && Objects.equals(userInDB.password(), user.password()))) { return null; }
+
         AuthDAOMemory.createAuth(user.username());
         return AuthDAOMemory.getAuth(user.username());
+        */
     }
 }
