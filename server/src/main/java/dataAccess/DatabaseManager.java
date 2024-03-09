@@ -1,6 +1,8 @@
 package dataAccess;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class DatabaseManager {
@@ -8,7 +10,6 @@ public class DatabaseManager {
     private static final String user;
     private static final String password;
     private static final String connectionUrl;
-    public static final InsertTemplate
 
     /*
      * Load the database information for the db.properties file.
@@ -34,8 +35,9 @@ public class DatabaseManager {
 
         try {
             createDatabase();
+            createTables();
         } catch (Exception ex) {
-            throw new RuntimeException("unable to create database" + ex.getMessage());
+            throw new RuntimeException("unable to create database/tables" + ex.getMessage());
         }
     }
 
@@ -48,6 +50,56 @@ public class DatabaseManager {
             var conn = DriverManager.getConnection(connectionUrl, user, password);
             try (var preparedStatement = conn.prepareStatement(statement)) {
                 preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
+    }
+    private static final String[] createTableStatements = {
+            """
+            CREATE TABLE IF NOT EXISTS auth (
+                id INT NOT NULL AUTO_INCREMENT,
+                username VARCHAR(64) NOT NULL,
+                authToken INT NOT NULL,
+                PRIMARY KEY (id),
+                INDEX(username),
+                INDEX(authToken)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_cs
+            """
+            ,
+            """
+            CREATE TABLE IF NOT EXISTS game (
+                id INT NOT NULL AUTO_INCREMENT,
+                gameID INT NOT NULL,
+                whiteUsername VARCHAR(64) DEFAULT NULL,
+                blackUsername VARCHAR(64) DEFAULT NULL,
+                gameName VARCHAR(128) DEFAULT NULL,
+                game TEXT DEFAULT NULL,
+                PRIMARY KEY (id),
+                INDEX(gameID),
+                INDEX(gameName)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
+            """
+            ,
+            """
+            CREATE TABLE IF NOT EXISTS user (
+                id INT NOT NULL AUTO_INCREMENT,
+                username VARCHAR(64) NOT NULL,
+                password VARCHAR(64) NOT NULL,
+                email VARCHAR(64) NOT NULL,
+                PRIMARY KEY (id),
+                INDEX(username),
+                INDEX(password)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
+            """
+    };
+    static void createTables() throws DataAccessException {
+        try {
+            for (String statement : createTableStatements) {
+                var conn = DriverManager.getConnection(connectionUrl, user, password);
+                try (var preparedStatement = conn.prepareStatement(statement)) {
+                    preparedStatement.executeUpdate();
+                }
             }
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
@@ -76,7 +128,7 @@ public class DatabaseManager {
         }
     }
 
-    static void RunStatements(String[] statements, String[][] values) throws DataAccessException {
+    static void RunStatements(ArrayList<String> statements, List<List<String>> values) throws DataAccessException {
 
         // establish connection
         try (Connection conn = getConnection()) {
@@ -89,12 +141,12 @@ public class DatabaseManager {
             try {
 
                 // loop through operations to complete
-                for(int i=0; i<statements.length; i++) {
+                for(int i=0; i<statements.size(); i++) {
 
                     // try creating and running the statement
-                    try (PreparedStatement preparedStatement = conn.prepareStatement(statements[i])) {
-                        for(int j=1; j<values[i].length + 1; j++) {
-                            preparedStatement.setString(j, values[i][j]);
+                    try (PreparedStatement preparedStatement = conn.prepareStatement(statements.get(i))) {
+                        for(int j=1; j<values.get(i).size() + 1; j++) {
+                            preparedStatement.setString(j, values.get(i).get(j));
                         }
                         preparedStatement.executeUpdate();
                     }
@@ -116,5 +168,21 @@ public class DatabaseManager {
             // connection not established
             throw new DataAccessException(e.getMessage());
         }
+    }
+
+    /*
+    public static final String insertS = "INSERT INTO ";
+    public static final String selectS = "SElECT FROM ";
+    public static final String updateS = "UPDATE ";
+    public static final String deleteS = "DELETE FROM ";
+    */
+    public static String AuthDataS() {
+        return "(username, authToken) " + getEmptyS(2);
+    }
+    public static String UserDataS() {
+        return "(username, password, email) " + getEmptyS(3);
+    }
+    public static String getEmptyS(int size) {
+        return "VALUES (" + "?,".repeat(Math.max(0, size)) + ")";
     }
 }

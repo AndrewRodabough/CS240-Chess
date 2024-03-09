@@ -3,42 +3,215 @@ package dataAccess;
 import model.AuthData;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.sql.ResultSet;
+
+//import dataAccess.DatabaseManager;
 
 public class AuthDAOSQL {
     static boolean createAuth(String username) throws DataAccessException{
-        String AuthToken = UUID.randomUUID().toString();
-        String[] statements =
-        List<String> statements = new ArrayList<>();
-        List<List<String>> param = new ArrayList<>();
-        DatabaseManager.RunStatements();
-        return false;
-    }
-    static AuthData getAuth(String username) throws DataAccessException, SQLException {
-        try (var conn = DatabaseManager.getConnection()) {
+        String authToken = UUID.randomUUID().toString();
 
-        }
-        return null;
-    }
-    static AuthData getAuthFromToken(String authToken) throws DataAccessException, SQLException{
-        try (var conn = DatabaseManager.getConnection()) {
+        // establish connection
+        try (Connection conn = DatabaseManager.getConnection()) {
+            //connection established
 
-        }
-        return null;
-    }
-    static boolean deleteAuth(AuthData auth) throws DataAccessException, SQLException {
-        try (var conn = DatabaseManager.getConnection()) {
+            //do not autocommit to db
+            conn.setAutoCommit(false);
 
-        }
-        return false;
-    }
-    static boolean clear() throws DataAccessException, SQLException{
-        try (var conn = DatabaseManager.getConnection()) {
+            //run statements
+            try {
 
+                String statement = "INSERT into auth (username, authToken) VALUES (?,?)";
+
+                // try creating and running the statement
+                try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
+                    preparedStatement.setString(1, username);
+                    preparedStatement.setString(2, authToken);
+                    preparedStatement.execute();
+                }
+
+                // success commit all operations of transaction
+                conn.commit();
+
+            } catch (Exception e) {
+                // transaction failed
+                conn.rollback();
+                throw new DataAccessException("Unable to complete transaction" + e.getMessage());
+            } finally {
+                // re-engage autocommit
+                conn.setAutoCommit(true);
+            }
+
+        } catch (SQLException e) {
+            // connection not established
+            throw new DataAccessException(e.getMessage());
         }
-        return false;
+        return true;
+    }
+    static AuthData getAuth(String username) throws DataAccessException{
+        AuthData authData = null;
+
+        // establish connection
+        try (Connection conn = DatabaseManager.getConnection()) {
+            //connection established
+
+            //do not autocommit to db
+            conn.setAutoCommit(false);
+
+            //run statements
+            try {
+
+                String statement = "SELECT authToken FROM auth WHERE username = ?";
+
+
+                // try creating and running the statement
+                try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
+                    preparedStatement.setString(1, username);
+                    try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                        authData = new AuthData(username, resultSet.getString("authToken"));
+                    }
+                }
+
+                // success commit all operations of transaction
+                conn.commit();
+
+            } catch (Exception e) {
+                // transaction failed
+                conn.rollback();
+                throw new DataAccessException("Unable to complete transaction" + e.getMessage());
+            } finally {
+                // re-engage autocommit
+                conn.setAutoCommit(true);
+            }
+
+        } catch (SQLException e) {
+            // connection not established
+            throw new DataAccessException(e.getMessage());
+        }
+
+        return authData;
+    }
+    static AuthData getAuthFromToken(String authToken) throws DataAccessException{
+        AuthData authData = null;
+
+        // establish connection
+        try (Connection conn = DatabaseManager.getConnection()) {
+            //connection established
+
+            //do not autocommit to db
+            conn.setAutoCommit(false);
+
+            //run statements
+            try {
+
+                String statement = "SELECT username FROM auth WHERE authToken = ?";
+
+
+                // try creating and running the statement
+                try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
+                    preparedStatement.setString(1, authToken);
+                    try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                        authData = new AuthData(resultSet.getString("username"), authToken);
+                    }
+                }
+
+                // success commit all operations of transaction
+                conn.commit();
+
+            } catch (Exception e) {
+                // transaction failed
+                conn.rollback();
+                throw new DataAccessException("Unable to complete transaction" + e.getMessage());
+            } finally {
+                // re-engage autocommit
+                conn.setAutoCommit(true);
+            }
+
+        } catch (SQLException e) {
+            // connection not established
+            throw new DataAccessException(e.getMessage());
+        }
+
+        return authData;
+    }
+    static boolean deleteAuth(String authToken) throws DataAccessException{
+        // establish connection
+        try (Connection conn = DatabaseManager.getConnection()) {
+            //connection established
+
+            //do not autocommit to db
+            conn.setAutoCommit(false);
+
+            //run statements
+            try {
+
+                String statement = "DELETE FROM auth WHERE authToken = ?";
+
+                // try creating and running the statement
+                try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
+                    preparedStatement.setString(1, authToken);
+                    preparedStatement.executeQuery();
+                }
+
+                // success commit all operations of transaction
+                conn.commit();
+
+            } catch (Exception e) {
+                // transaction failed
+                conn.rollback();
+                throw new DataAccessException("Unable to complete transaction" + e.getMessage());
+            } finally {
+                // re-engage autocommit
+                conn.setAutoCommit(true);
+            }
+
+        } catch (SQLException e) {
+            // connection not established
+            throw new DataAccessException(e.getMessage());
+        }
+
+        return true;
+    }
+    static boolean clear() throws DataAccessException{
+        // establish connection
+        try (Connection conn = DatabaseManager.getConnection()) {
+            //connection established
+
+            //do not autocommit to db
+            conn.setAutoCommit(false);
+
+            //run statements
+            try {
+
+                String statement = "DELETE FROM auth";
+
+                // try creating and running the statement
+                try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
+                    preparedStatement.executeQuery();
+                }
+
+                // success commit all operations of transaction
+                conn.commit();
+
+            } catch (Exception e) {
+                // transaction failed
+                conn.rollback();
+                throw new DataAccessException("Unable to complete transaction" + e.getMessage());
+            } finally {
+                // re-engage autocommit
+                conn.setAutoCommit(true);
+            }
+
+        } catch (SQLException e) {
+            // connection not established
+            throw new DataAccessException(e.getMessage());
+        }
+        return true;
     }
 }

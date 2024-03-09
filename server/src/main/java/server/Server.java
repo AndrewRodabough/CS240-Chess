@@ -1,6 +1,7 @@
 package server;
 
 import dataAccess.DatabaseManager;
+import handler.Exception;
 import spark.*;
 import handler.*;
 
@@ -12,6 +13,7 @@ public class Server {
     Handler login = new Login();
     Handler logout = new Logout();
     Handler register = new Register();
+    Handler exception = new Exception();
 
     public int run(int desiredPort) {
         Spark.port(desiredPort);
@@ -25,7 +27,7 @@ public class Server {
         Spark.get("/game", (req, res) -> listGames.handler(req,res));
         Spark.post("/game", (req, res) -> createGame.handler(req,res));
         Spark.put("/game", (req, res) -> joinGame.handler(req,res));
-        //Spark.exception(ResponseException.class, this::exceptionHandler);
+        //Spark.exception(server.ResponseException.class, (T, req, res) -> exception.handler(req, res));
 
         Spark.awaitInitialization();
         return Spark.port();
