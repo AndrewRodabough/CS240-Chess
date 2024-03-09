@@ -9,7 +9,6 @@ public class Clear{
             return false;
         }
         dataAccess.UserDAOMemory.clear();
-        // dataAccess.AuthDAOMemory.clear();
         dataAccess.GameDAOMemory.clear();
         return true;
     }

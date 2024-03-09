@@ -193,7 +193,7 @@ public class AuthDAOSQL {
 
                 // try creating and running the statement
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
-                    preparedStatement.executeQuery();
+                    preparedStatement.execute();
                 }
 
                 // success commit all operations of transaction
