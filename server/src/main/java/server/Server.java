@@ -1,5 +1,6 @@
 package server;
 
+import dataAccess.DatabaseManager;
 import spark.*;
 import handler.*;
 
@@ -11,9 +12,9 @@ public class Server {
     Handler login = new Login();
     Handler logout = new Logout();
     Handler register = new Register();
+
     public int run(int desiredPort) {
         Spark.port(desiredPort);
-
         Spark.staticFiles.location("web");
 
         // Register your endpoints and handle exceptions here.

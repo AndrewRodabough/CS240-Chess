@@ -8,9 +8,11 @@ public class DatabaseManager {
     private static final String user;
     private static final String password;
     private static final String connectionUrl;
+    public static final InsertTemplate
 
     /*
      * Load the database information for the db.properties file.
+     * Create the database if it does not exist
      */
     static {
         try {
@@ -28,6 +30,12 @@ public class DatabaseManager {
             }
         } catch (Exception ex) {
             throw new RuntimeException("unable to process db.properties. " + ex.getMessage());
+        }
+
+        try {
+            createDatabase();
+        } catch (Exception ex) {
+            throw new RuntimeException("unable to create database" + ex.getMessage());
         }
     }
 
@@ -64,6 +72,48 @@ public class DatabaseManager {
             conn.setCatalog(databaseName);
             return conn;
         } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
+    }
+
+    static void RunStatements(String[] statements, String[][] values) throws DataAccessException {
+
+        // establish connection
+        try (Connection conn = getConnection()) {
+            //connection established
+
+            //do not autocommit to db
+            conn.setAutoCommit(false);
+
+            //run statements
+            try {
+
+                // loop through operations to complete
+                for(int i=0; i<statements.length; i++) {
+
+                    // try creating and running the statement
+                    try (PreparedStatement preparedStatement = conn.prepareStatement(statements[i])) {
+                        for(int j=1; j<values[i].length + 1; j++) {
+                            preparedStatement.setString(j, values[i][j]);
+                        }
+                        preparedStatement.executeUpdate();
+                    }
+                }
+
+                // success commit all operations of transaction
+                conn.commit();
+
+            } catch (Exception e) {
+                // transaction failed
+                conn.rollback();
+                throw new DataAccessException("Unable to complete transaction" + e.getMessage());
+            } finally {
+                // re-engage autocommit
+                conn.setAutoCommit(true);
+            }
+
+        } catch (SQLException e) {
+            // connection not established
             throw new DataAccessException(e.getMessage());
         }
     }
