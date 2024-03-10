@@ -60,7 +60,7 @@ public class DatabaseManager {
             CREATE TABLE IF NOT EXISTS auth (
                 id INT NOT NULL AUTO_INCREMENT,
                 username VARCHAR(64) NOT NULL,
-                authToken INT NOT NULL,
+                authToken VARCHAR(64) NOT NULL,
                 PRIMARY KEY (id),
                 INDEX(username),
                 INDEX(authToken)
@@ -88,7 +88,7 @@ public class DatabaseManager {
             """
     };
     private static final String S0 = "USE chess";
-    private static final String S1 = "CREATE TABLE IF NOT EXISTS auth (id INT NOT NULL AUTO_INCREMENT,username VARCHAR(64) NOT NULL, authToken INT NOT NULL, PRIMARY KEY (id), INDEX(username), INDEX(authToken) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
+    private static final String S1 = "CREATE TABLE IF NOT EXISTS auth (id INT NOT NULL AUTO_INCREMENT,username VARCHAR(64) NOT NULL, authToken VARCHAR(64) NOT NULL, PRIMARY KEY (id), INDEX(username), INDEX(authToken) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
     private static final String S2 = "CREATE TABLE IF NOT EXISTS game (id INT NOT NULL AUTO_INCREMENT,gameID INT NOT NULL,whiteUsername VARCHAR(64) DEFAULT NULL,blackUsername VARCHAR(64) DEFAULT NULL,gameName VARCHAR(128) DEFAULT NULL,game TEXT DEFAULT NULL,PRIMARY KEY (id),INDEX(gameID),INDEX(gameName)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
     private static final String S3 = "CREATE TABLE IF NOT EXISTS user (id INT NOT NULL AUTO_INCREMENT,username VARCHAR(64) NOT NULL,password VARCHAR(64) NOT NULL,email VARCHAR(64) NOT NULL,PRIMARY KEY (id),INDEX(username),INDEX(password)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
 

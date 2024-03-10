@@ -12,7 +12,7 @@ public class Authorize {
         if(AuthToken == null) { return false; }
         try {
             AuthData auth = AuthDAOSQL.getAuthFromToken(AuthToken);
-            return true;
+            return auth != null;
         } catch (DataAccessException e) {
             return false;
         }

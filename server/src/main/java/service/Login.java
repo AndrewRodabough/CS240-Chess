@@ -15,8 +15,8 @@ public class Login{
         if(!(Objects.equals(userInDB.username(), user.username()) && Objects.equals(userInDB.password(), user.password()))) { return null; }
 
         try {
-            AuthDAOSQL.createAuth(user.username());
-            return AuthDAOSQL.getAuth(user.username());
+            String authToken = AuthDAOSQL.createAuth(user.username());
+            return AuthDAOSQL.getAuthFromToken(authToken);
         } catch (Exception e) {
             return null;
         }

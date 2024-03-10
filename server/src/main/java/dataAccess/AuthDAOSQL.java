@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 //import dataAccess.DatabaseManager;
 
 public class AuthDAOSQL {
-    public static boolean createAuth(String username) throws DataAccessException{
+    public static String createAuth(String username) throws DataAccessException{
         String authToken = UUID.randomUUID().toString();
 
         // establish connection
@@ -52,7 +52,7 @@ public class AuthDAOSQL {
             // connection not established
             throw new DataAccessException(e.getMessage());
         }
-        return true;
+        return authToken;
     }
     public static AuthData getAuth(String username) throws DataAccessException{
         AuthData authData = null;
@@ -66,15 +66,19 @@ public class AuthDAOSQL {
 
             //run statements
             try {
-
-                String statement = "SELECT authToken FROM auth WHERE username = ?";
-
+                String statement2 = "SELECT authToken FROM auth WHERE username = ?";
 
                 // try creating and running the statement
-                try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
+                try (PreparedStatement preparedStatement = conn.prepareStatement(statement2)) {
                     preparedStatement.setString(1, username);
                     try(ResultSet resultSet = preparedStatement.executeQuery()) {
-                        authData = new AuthData(username, resultSet.getString("authToken"));
+                        if (resultSet.next()) {
+                            authData = new AuthData(username, resultSet.getString("authToken"));
+                        }
+                        else {
+                            authData = null;
+                        }
+
                     }
                 }
 
@@ -117,7 +121,12 @@ public class AuthDAOSQL {
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
                     preparedStatement.setString(1, authToken);
                     try(ResultSet resultSet = preparedStatement.executeQuery()) {
-                        authData = new AuthData(resultSet.getString("username"), authToken);
+                        if (resultSet.next()) {
+                            authData = new AuthData(resultSet.getString("username"), authToken);
+                        }
+                        else {
+                            authData = null;
+                        }
                     }
                 }
 
@@ -150,13 +159,12 @@ public class AuthDAOSQL {
 
             //run statements
             try {
-
                 String statement = "DELETE FROM auth WHERE authToken = ?";
 
                 // try creating and running the statement
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
                     preparedStatement.setString(1, authToken);
-                    preparedStatement.executeQuery();
+                    preparedStatement.executeUpdate();
                 }
 
                 // success commit all operations of transaction
