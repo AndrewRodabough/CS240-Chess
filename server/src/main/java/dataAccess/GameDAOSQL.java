@@ -64,7 +64,7 @@ public class GameDAOSQL {
             // connection not established
             throw new DataAccessException(e.getMessage());
         }
-        return 1;
+        return num;
     }
     public static boolean idExists(int id) throws DataAccessException {
         return getGame(id) != null;
@@ -139,7 +139,7 @@ public class GameDAOSQL {
                     preparedStatement.setInt(1, id);
                     try(ResultSet resultSet = preparedStatement.executeQuery()) {
                         if (resultSet.next()) {
-                            String gameJson = resultSet.getString("gameName");
+                            String gameJson = resultSet.getString("game");
                             Gson gson = new Gson();
                             ChessGame gameO = gson.fromJson(gameJson, ChessGame.class);
                             game = new GameData(resultSet.getInt("gameID"),
@@ -189,7 +189,7 @@ public class GameDAOSQL {
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement2)) {
                     try(ResultSet resultSet = preparedStatement.executeQuery()) {
                         while(resultSet.next()) {
-                            String gameJson = resultSet.getString("gameName");
+                            String gameJson = resultSet.getString("game");
                             Gson gson = new Gson();
                             ChessGame gameO = gson.fromJson(gameJson, ChessGame.class);
 

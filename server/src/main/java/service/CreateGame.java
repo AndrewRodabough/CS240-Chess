@@ -14,11 +14,5 @@ public class CreateGame{
             return -1;
         }
 
-        /*
-        if(name == null) { return -1;}
-
-        int id = GameDAOMemory.createGame(name);
-        return id;
-        */
     }
 }
