@@ -1,7 +1,6 @@
 package service;
 
 import dataAccess.AuthDAOSQL;
-import dataAccess.AuthDAOMemory;
 import dataAccess.DataAccessException;
 import model.AuthData;
 

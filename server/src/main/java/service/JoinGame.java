@@ -1,7 +1,6 @@
 package service;
 
 import dataAccess.AuthDAOSQL;
-import dataAccess.AuthDAOMemory;
 import dataAccess.GameDAOMemory;
 import model.AuthData;
 import model.GameData;
