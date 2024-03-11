@@ -1,12 +1,17 @@
 package service;
 
-import dataAccess.GameDAOMemory;
+import dataAccess.GameDAOSQL;
 import model.GameData;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class ListGames{
     public static Collection<GameData> Run() {
-        return GameDAOMemory.listGames();
+        try {
+            return GameDAOSQL.listGames();
+        } catch (Exception e) {
+            return new ArrayList<GameData>();
+        }
     }
 }
