@@ -5,11 +5,12 @@ public class Clear{
         try {
             dataAccess.AuthDAOSQL.clear();
             dataAccess.UserDAOSQL.clear();
+            dataAccess.GameDAOSQL.clear();
         }
         catch (Exception e) {
             return false;
         }
-        dataAccess.GameDAOMemory.clear();
+
         return true;
     }
 }

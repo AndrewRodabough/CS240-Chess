@@ -1,7 +1,7 @@
 package service;
 
 import dataAccess.AuthDAOSQL;
-import dataAccess.GameDAOMemory;
+import dataAccess.GameDAOSQL;
 import model.AuthData;
 import model.GameData;
 
@@ -39,33 +39,5 @@ public class JoinGame{
             return true;
         }
         return true;
-
-        /*
-        GameData game = GameDAOMemory.getGame(gameID);
-        if (game == null) { return false; }
-
-        AuthData auth = AuthDAOMemory.getAuthFromToken(authToken);
-
-        if (Objects.equals(playerColor, "WHITE")) {
-            if(game.whiteUsername() == null) {
-                GameDAOMemory.updateGameUser(gameID, auth.username(), game.blackUsername());
-            }
-            else {
-                return false;
-            }
-        }
-        else if (Objects.equals(playerColor, "BLACK")) {
-            if(game.blackUsername() == null) {
-                GameDAOMemory.updateGameUser(gameID, game.whiteUsername(), auth.username());
-            }
-            else {
-                return false;
-            }
-        }
-        else {
-            return true;
-        }
-        return true;
-        */
     }
 }
