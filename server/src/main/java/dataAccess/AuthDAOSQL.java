@@ -27,7 +27,7 @@ public class AuthDAOSQL {
             //run statements
             try {
 
-                String statement = "INSERT into auth (username, authToken) VALUES (?,?)";
+                String statement = "INSERT INTO auth (username, authToken) VALUES (?,?)";
 
                 // try creating and running the statement
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
