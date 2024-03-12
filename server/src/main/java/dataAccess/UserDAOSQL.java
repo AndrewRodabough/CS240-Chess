@@ -21,7 +21,7 @@ public class UserDAOSQL {
             //run statements
             try {
 
-                String statement = "INSERT into user (username, password, email) VALUES (?,?,?)";
+                String statement = "INSERT INTO user (username, password, email) VALUES (?,?,?)";
 
                 // try creating and running the statement
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {

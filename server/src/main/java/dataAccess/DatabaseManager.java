@@ -1,8 +1,6 @@
 package dataAccess;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 public class DatabaseManager {
@@ -55,39 +53,39 @@ public class DatabaseManager {
             throw new DataAccessException(e.getMessage());
         }
     }
-    private static final String[] createAuthTableStatement = {
-            """
-            CREATE TABLE IF NOT EXISTS auth (
-                id INT NOT NULL AUTO_INCREMENT,
-                username VARCHAR(64) NOT NULL,
-                authToken VARCHAR(64) NOT NULL,
-                PRIMARY KEY (id),
-                INDEX(username),
-                INDEX(authToken)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_cs
-           CREATE TABLE IF NOT EXISTS game (
-                id INT NOT NULL AUTO_INCREMENT,
-                gameID INT NOT NULL,
-                whiteUsername VARCHAR(64) DEFAULT NULL,
-                blackUsername VARCHAR(64) DEFAULT NULL,
-                gameName VARCHAR(128) NOT NULL,
-                game TEXT DEFAULT NULL,
-                PRIMARY KEY (id),
-                INDEX(gameID),
-                INDEX(gameName)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
-            CREATE TABLE IF NOT EXISTS user (
-                id INT NOT NULL AUTO_INCREMENT,
-                username VARCHAR(64) NOT NULL,
-                password VARCHAR(64) NOT NULL,
-                email VARCHAR(64) NOT NULL,
-                PRIMARY KEY (id),
-                INDEX(username),
-                INDEX(password)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
-            """
-    };
-    private static final String S0 = "USE chess";
+    /*
+    """
+    CREATE TABLE IF NOT EXISTS auth (
+        id INT NOT NULL AUTO_INCREMENT,
+        username VARCHAR(64) NOT NULL,
+        authToken VARCHAR(64) NOT NULL,
+        PRIMARY KEY (id),
+        INDEX(username),
+        INDEX(authToken)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_cs
+   CREATE TABLE IF NOT EXISTS game (
+        id INT NOT NULL AUTO_INCREMENT,
+        gameID INT NOT NULL,
+        whiteUsername VARCHAR(64) DEFAULT NULL,
+        blackUsername VARCHAR(64) DEFAULT NULL,
+        gameName VARCHAR(128) NOT NULL,
+        game TEXT DEFAULT NULL,
+        PRIMARY KEY (id),
+        INDEX(gameID),
+        INDEX(gameName)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
+    CREATE TABLE IF NOT EXISTS user (
+        id INT NOT NULL AUTO_INCREMENT,
+        username VARCHAR(64) NOT NULL,
+        password VARCHAR(64) NOT NULL,
+        email VARCHAR(64) NOT NULL,
+        PRIMARY KEY (id),
+        INDEX(username),
+        INDEX(password)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
+    """
+    */
+    private static final String S0 = "USE " + databaseName;
     private static final String S1 = "CREATE TABLE IF NOT EXISTS auth (id INT NOT NULL AUTO_INCREMENT,username VARCHAR(64) NOT NULL, authToken VARCHAR(64) NOT NULL, PRIMARY KEY (id), INDEX(username), INDEX(authToken) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
     private static final String S2 = "CREATE TABLE IF NOT EXISTS game (id INT NOT NULL AUTO_INCREMENT,gameID INT NOT NULL,whiteUsername VARCHAR(64) DEFAULT NULL,blackUsername VARCHAR(64) DEFAULT NULL,gameName VARCHAR(128) NOT NULL,game TEXT DEFAULT NULL,PRIMARY KEY (id),INDEX(gameID),INDEX(gameName)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
     private static final String S3 = "CREATE TABLE IF NOT EXISTS user (id INT NOT NULL AUTO_INCREMENT,username VARCHAR(64) NOT NULL,password VARCHAR(64) NOT NULL,email VARCHAR(64) NOT NULL,PRIMARY KEY (id),INDEX(username),INDEX(password)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
@@ -127,48 +125,6 @@ public class DatabaseManager {
             conn.setCatalog(databaseName);
             return conn;
         } catch (SQLException e) {
-            throw new DataAccessException(e.getMessage());
-        }
-    }
-
-    static void RunStatements(ArrayList<String> statements, List<List<String>> values) throws DataAccessException {
-
-        // establish connection
-        try (Connection conn = getConnection()) {
-            //connection established
-
-            //do not autocommit to db
-            conn.setAutoCommit(false);
-
-            //run statements
-            try {
-
-                // loop through operations to complete
-                for(int i=0; i<statements.size(); i++) {
-
-                    // try creating and running the statement
-                    try (PreparedStatement preparedStatement = conn.prepareStatement(statements.get(i))) {
-                        for(int j=1; j<values.get(i).size() + 1; j++) {
-                            preparedStatement.setString(j, values.get(i).get(j));
-                        }
-                        preparedStatement.executeUpdate();
-                    }
-                }
-
-                // success commit all operations of transaction
-                conn.commit();
-
-            } catch (Exception e) {
-                // transaction failed
-                conn.rollback();
-                throw new DataAccessException("Unable to complete transaction" + e.getMessage());
-            } finally {
-                // re-engage autocommit
-                conn.setAutoCommit(true);
-            }
-
-        } catch (SQLException e) {
-            // connection not established
             throw new DataAccessException(e.getMessage());
         }
     }

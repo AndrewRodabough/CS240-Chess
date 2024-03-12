@@ -39,7 +39,7 @@ public class GameDAOSQL {
             //run statements
             try {
 
-                String statement = "INSERT into game (gameID, gameName, game) VALUES (?,?,?)";
+                String statement = "INSERT INTO game (gameID, gameName, game) VALUES (?,?,?)";
 
                 // try creating and running the statement
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
