@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 public class GameDAOSQL {
     public static int createGame(String gameName) throws DataAccessException {
         if(nameExists(gameName)) {return -1; }
+        if(gameName == null) {return -1;}
 
         Random random = new Random();
         int num;

@@ -172,20 +172,4 @@ public class DatabaseManager {
             throw new DataAccessException(e.getMessage());
         }
     }
-
-    /*
-    public static final String insertS = "INSERT INTO ";
-    public static final String selectS = "SElECT FROM ";
-    public static final String updateS = "UPDATE ";
-    public static final String deleteS = "DELETE FROM ";
-    */
-    public static String AuthDataS() {
-        return "(username, authToken) " + getEmptyS(2);
-    }
-    public static String UserDataS() {
-        return "(username, password, email) " + getEmptyS(3);
-    }
-    public static String getEmptyS(int size) {
-        return "VALUES (" + "?,".repeat(Math.max(0, size)) + ")";
-    }
 }
