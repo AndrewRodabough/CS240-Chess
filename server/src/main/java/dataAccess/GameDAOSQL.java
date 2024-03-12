@@ -66,10 +66,10 @@ public class GameDAOSQL {
         }
         return num;
     }
-    public static boolean idExists(int id) throws DataAccessException {
+    private static boolean idExists(int id) throws DataAccessException {
         return getGame(id) != null;
     }
-    public static boolean nameExists(String name) throws DataAccessException {
+    private static boolean nameExists(String name) throws DataAccessException {
         GameData game = null;
 
         // establish connection
