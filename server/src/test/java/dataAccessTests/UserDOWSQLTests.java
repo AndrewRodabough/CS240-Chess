@@ -1,5 +1,6 @@
 package dataAccessTests;
 
+import dataAccess.UserDAOSQL;
 import org.junit.jupiter.api.*;
 
 public class UserDOWSQLTests {
@@ -25,10 +26,11 @@ public class UserDOWSQLTests {
 
     @Test
     public void clearPositive() {
-
-    }
-    @Test
-    public void clearNegative() {
-
+        try {
+            Assertions.assertTrue(UserDAOSQL.clear());
+        }
+        catch (Exception e) {
+            Assertions.fail();
+        }
     }
 }

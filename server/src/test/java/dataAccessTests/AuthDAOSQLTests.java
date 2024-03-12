@@ -1,5 +1,7 @@
 package dataAccessTests;
 
+import dataAccess.AuthDAOSQL;
+import dataAccess.UserDAOSQL;
 import org.junit.jupiter.api.*;
 
 public class AuthDAOSQLTests {
@@ -49,6 +51,11 @@ public class AuthDAOSQLTests {
     }
     @Test
     public void clearNegative() {
-
+        try {
+            Assertions.assertTrue(AuthDAOSQL.clear());
+        }
+        catch (Exception e) {
+            Assertions.fail();
+        }
     }
 }

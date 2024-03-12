@@ -1,5 +1,7 @@
 package dataAccessTests;
 
+import dataAccess.GameDAOSQL;
+import dataAccess.UserDAOSQL;
 import org.junit.jupiter.api.*;
 
 public class GameDOWSQLTests {
@@ -44,10 +46,11 @@ public class GameDOWSQLTests {
 
     @Test
     public void clearPositive() {
-
-    }
-    @Test
-    public void clearNegative() {
-
+        try {
+            Assertions.assertTrue(GameDAOSQL.clear());
+        }
+        catch (Exception e) {
+            Assertions.fail();
+        }
     }
 }
