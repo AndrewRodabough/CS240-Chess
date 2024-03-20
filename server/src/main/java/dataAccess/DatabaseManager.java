@@ -12,6 +12,7 @@ public class DatabaseManager {
     /*
      * Load the database information for the db.properties file.
      * Create the database if it does not exist
+     * Create the Tables if it does not exist
      */
     static {
         try {
@@ -53,48 +54,12 @@ public class DatabaseManager {
             throw new DataAccessException(e.getMessage());
         }
     }
-    /*
-    """
-    CREATE TABLE IF NOT EXISTS auth (
-        id INT NOT NULL AUTO_INCREMENT,
-        username VARCHAR(64) NOT NULL,
-        authToken VARCHAR(64) NOT NULL,
-        PRIMARY KEY (id),
-        INDEX(username),
-        INDEX(authToken)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_cs
-   CREATE TABLE IF NOT EXISTS game (
-        id INT NOT NULL AUTO_INCREMENT,
-        gameID INT NOT NULL,
-        whiteUsername VARCHAR(64) DEFAULT NULL,
-        blackUsername VARCHAR(64) DEFAULT NULL,
-        gameName VARCHAR(128) NOT NULL,
-        game TEXT DEFAULT NULL,
-        PRIMARY KEY (id),
-        INDEX(gameID),
-        INDEX(gameName)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
-    CREATE TABLE IF NOT EXISTS user (
-        id INT NOT NULL AUTO_INCREMENT,
-        username VARCHAR(64) NOT NULL,
-        password VARCHAR(64) NOT NULL,
-        email VARCHAR(64) NOT NULL,
-        PRIMARY KEY (id),
-        INDEX(username),
-        INDEX(password)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
-    """
-    */
-    private static final String S1 = "CREATE TABLE IF NOT EXISTS auth (id INT NOT NULL AUTO_INCREMENT,username VARCHAR(64) NOT NULL, authToken VARCHAR(64) NOT NULL, PRIMARY KEY (id), INDEX(username), INDEX(authToken) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
-    private static final String S2 = "CREATE TABLE IF NOT EXISTS game (id INT NOT NULL AUTO_INCREMENT,gameID INT NOT NULL,whiteUsername VARCHAR(64) DEFAULT NULL,blackUsername VARCHAR(64) DEFAULT NULL,gameName VARCHAR(128) NOT NULL,game TEXT DEFAULT NULL,PRIMARY KEY (id),INDEX(gameID),INDEX(gameName)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
-    private static final String S3 = "CREATE TABLE IF NOT EXISTS user (id INT NOT NULL AUTO_INCREMENT,username VARCHAR(64) NOT NULL,password VARCHAR(64) NOT NULL,email VARCHAR(64) NOT NULL,PRIMARY KEY (id),INDEX(username),INDEX(password)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
-
     static void createTables() throws DataAccessException {
         String[] s = new String[4];
         s[0] = "USE " + databaseName;
-        s[1] = S1;
-        s[2] = S2;
-        s[3] = S3;
+        s[1] = "CREATE TABLE IF NOT EXISTS auth (id INT NOT NULL AUTO_INCREMENT,username VARCHAR(64) NOT NULL, authToken VARCHAR(64) NOT NULL, PRIMARY KEY (id), INDEX(username), INDEX(authToken) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
+        s[2] = "CREATE TABLE IF NOT EXISTS game (id INT NOT NULL AUTO_INCREMENT,gameID INT NOT NULL,whiteUsername VARCHAR(64) DEFAULT NULL,blackUsername VARCHAR(64) DEFAULT NULL,gameName VARCHAR(128) NOT NULL,game TEXT DEFAULT NULL,PRIMARY KEY (id),INDEX(gameID),INDEX(gameName)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
+        s[3] = "CREATE TABLE IF NOT EXISTS user (id INT NOT NULL AUTO_INCREMENT,username VARCHAR(64) NOT NULL,password VARCHAR(64) NOT NULL,email VARCHAR(64) NOT NULL,PRIMARY KEY (id),INDEX(username),INDEX(password)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci";
         try (var conn = DriverManager.getConnection(connectionUrl, user, password)){
             for (String statement : s) {
                 try (var preparedStatement = conn.prepareStatement(statement)) {
