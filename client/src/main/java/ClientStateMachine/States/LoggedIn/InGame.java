@@ -3,11 +3,11 @@ package ClientStateMachine.States.LoggedIn;
 import ClientStateMachine.StateMachine;
 import ClientStateMachine.States.State;
 
-public class CreateGame extends State{
+public class InGame extends State {
     @Override
     public State Run(StateMachine sm) {
-        System.out.println("Implement Create Game here");
+        System.out.println("Implement In Game");
         sm.setArgs(null);
-        return new Menu();
+        return null;
     }
 }

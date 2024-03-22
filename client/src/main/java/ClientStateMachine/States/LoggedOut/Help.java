@@ -1,20 +1,21 @@
 package ClientStateMachine.States.LoggedOut;
 
-import ClientStateMachine.ConsoleStateMachine;
+import ClientStateMachine.StateMachine;
 import ClientStateMachine.States.State;
 
 public class Help extends State {
-    public State Run(ConsoleStateMachine sm) {
+    public State Run(StateMachine sm) {
         System.out.print(
             """
             Valid Commands:
-            'help'
-            'login'
-            'quit'
-            'register'
-            
+            'register <USERNAME> <PASSWORD> <EMAIL>'    - to create an account
+            'login <USERNAME> <PASSWORD>'               - to play chess
+            'help'                                      - shows possible commands
+            'quit'                                      - exit program
             """
             );
-        return new ClientStateMachine.States.LoggedOut.GetPrompt();
+
+        sm.setArgs(null);
+        return new Menu();
     }
 }

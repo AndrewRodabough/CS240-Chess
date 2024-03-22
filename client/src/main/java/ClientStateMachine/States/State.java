@@ -1,7 +1,6 @@
 package ClientStateMachine.States;
-import ClientStateMachine.ConsoleStateMachine;
-import ClientStateMachine.States.*;
+import ClientStateMachine.StateMachine;
 
 public abstract class State {
-    public abstract State Run(ConsoleStateMachine sm);
+    public abstract State Run(StateMachine sm);
 }
