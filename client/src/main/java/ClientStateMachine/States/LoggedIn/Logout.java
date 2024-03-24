@@ -19,6 +19,8 @@ public class Logout extends State{
 
         HttpResponse<String> res = HTTPHandler.sendRequest("/session", "DELETE", "", headers);
 
+        //comment
+
         if(res == null) {
             System.out.println("ERROR, no response from server");
             sm.setArgs(null);
