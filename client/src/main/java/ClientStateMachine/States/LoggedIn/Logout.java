@@ -11,6 +11,11 @@ import java.util.Map;
 
 public class Logout extends State{
     @Override
+    public String getSignature() { return ""; }
+    @Override
+    public int getNumArgs() { return 0; }
+
+    @Override
     public State Run(StateMachine sm) {
         System.out.println("Implement Logout Here");
 
@@ -18,8 +23,6 @@ public class Logout extends State{
         headers.put("authorization", sm.getAuth().authToken());
 
         HttpResponse<String> res = HTTPHandler.sendRequest("/session", "DELETE", "", headers);
-
-        //comment
 
         if(res == null) {
             System.out.println("ERROR, no response from server");

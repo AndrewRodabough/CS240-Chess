@@ -10,44 +10,33 @@ import ClientStateMachine.HTTPHandler;
 import com.google.gson.Gson;
 
 import java.net.http.HttpResponse;
-
 import java.util.List;
 
 public class Register extends State {
     @Override
+    public String getSignature() { return "register <USERNAME> <PASSWORD> <EMAIL>"; }
+    @Override
+    public int getNumArgs() { return 3; }
+
+    @Override
     public State Run(StateMachine sm) {
 
+        Boolean correctArgs = checkArgs(sm);
+        if (!correctArgs) {
+            sm.setArgs(null);
+            return new Menu();
+        }
+
         List<String> args = sm.getArgs();
-        if(args==null || args.size() < 3) {
-            System.out.println("Not Enough Args:\n  'register <USERNAME> <PASSWORD> <EMAIL>'\n");
-            sm.setArgs(null);
-            return new Menu();
-        }
-        if(args.size() > 3) {
-            System.out.println("Too Many Args:\n  'login <USERNAME> <PASSWORD>'\n");
-            sm.setArgs(null);
-            return new Menu();
-        }
-
-        String username = args.get(0);
-        String password = args.get(1);
-        String email = args.get(2);
-        UserData user = new UserData(username, password, email);
-
+        UserData user = new UserData(args.get(0), args.get(1), args.get(2));
         String json = new Gson().toJson(user);
         System.out.println(json);
 
         HttpResponse<String> res = HTTPHandler.sendRequest("/user", "POST", json, null);
-
-        if(res == null) {
-            System.out.println("ERROR, no response from server");
+        Boolean goodRes = checkStatus(res);
+        if(!goodRes) {
             sm.setArgs(null);
-            return new ClientStateMachine.States.LoggedOut.Menu();
-        }
-        if(res.statusCode() != 200) {
-            System.out.println("ERROR, status code was not 200. Code: " + res.statusCode());
-            sm.setArgs(null);
-            return new ClientStateMachine.States.LoggedOut.Menu();
+            return new Menu();
         }
 
         AuthData auth = new Gson().fromJson(res.body(), AuthData.class);

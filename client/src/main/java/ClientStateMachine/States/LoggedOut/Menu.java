@@ -2,12 +2,26 @@ package ClientStateMachine.States.LoggedOut;
 
 import ClientStateMachine.StateMachine;
 import ClientStateMachine.States.State;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Menu extends State{
     @Override
+    public String getSignature() { return "menu"; }
+    @Override
+    public int getNumArgs() { return 0; }
+
+    @Override
     public State Run(StateMachine sm) {
+
+        Boolean correctArgs = checkArgs(sm);
+        if (!correctArgs) {
+            sm.setArgs(null);
+            return new Menu();
+        }
+
         System.out.print("[LOGGED OUT] >>> ");
         String input = sm.getScanner().nextLine();
         List<String> tokens = new ArrayList<String>(List.of(input.split("\\s+")));
@@ -21,10 +35,8 @@ public class Menu extends State{
         }
 
         if(!StateMachine.getLoggedOutCommands().containsKey(command)) {
-            System.out.println("unrecognized command (type \"help\" to get list of commands\n");
-
-            sm.setArgs(null);
-            return this;
+            sm.setArgs(Arrays.asList(command));
+            return new InvalidCommand();
         }
         else {
             sm.setArgs(args);

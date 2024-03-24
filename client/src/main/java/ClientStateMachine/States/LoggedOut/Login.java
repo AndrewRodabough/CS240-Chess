@@ -12,38 +12,29 @@ import java.util.List;
 
 public class Login extends State {
     @Override
+    public String getSignature() { return "login <USERNAME> <PASSWORD>"; }
+    @Override
+    public int getNumArgs() { return 2; }
+
+    @Override
     public State Run(StateMachine sm) {
 
+        Boolean correctArgs = checkArgs(sm);
+        if (!correctArgs) {
+            sm.setArgs(null);
+            return new Menu();
+        }
+
         List<String> args = sm.getArgs();
-        if(args==null || args.size() < 2) {
-            System.out.println("Not Enough Args:\n  'login <USERNAME> <PASSWORD>'\n");
-            sm.setArgs(null);
-            return new Menu();
-        }
-        if(args.size() > 2) {
-            System.out.println("Too Many Args:\n  'login <USERNAME> <PASSWORD>'\n");
-            sm.setArgs(null);
-            return new Menu();
-        }
-
-        String username = args.get(0);
-        String password = args.get(1);
-        UserData user = new UserData(username, password, null);
-
+        UserData user = new UserData(args.get(0), args.get(1), null);
         String json = new Gson().toJson(user);
         System.out.println(json);
 
         HttpResponse<String> res = HTTPHandler.sendRequest("/session", "POST", json, null);
-
-        if(res == null) {
-            System.out.println("ERROR, no response from server");
+        Boolean goodRes = checkStatus(res);
+        if(!goodRes) {
             sm.setArgs(null);
-            return new ClientStateMachine.States.LoggedOut.Menu();
-        }
-        if(res.statusCode() != 200) {
-            System.out.println("ERROR, status code was not 200. Code: " + res.statusCode());
-            sm.setArgs(null);
-            return new ClientStateMachine.States.LoggedOut.Menu();
+            return new Menu();
         }
 
         AuthData auth = new Gson().fromJson(res.body(), AuthData.class);

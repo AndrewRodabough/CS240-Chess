@@ -7,6 +7,11 @@ import java.util.List;
 
 public class Menu extends State {
     @Override
+    public String getSignature() { return ""; }
+    @Override
+    public int getNumArgs() { return 0; }
+
+    @Override
     public State Run(StateMachine sm){
         System.out.print("[LOGGED IN] >>> ");
         String input = sm.getScanner().nextLine();

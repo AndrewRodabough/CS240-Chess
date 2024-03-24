@@ -6,6 +6,7 @@ import model.AuthData;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class StateMachine {
@@ -48,6 +49,12 @@ public class StateMachine {
     public void setArgs(List<String> args) { this.args = args; }
     public ChessGame.TeamColor getTeamColor() { return teamColor; }
     public void setTeamColor(ChessGame.TeamColor teamColor) { this.teamColor = teamColor; }
+
+    public Map<String, String> createAuthHeader() {
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("Authorization", auth.authToken());
+        return header;
+    }
 
     /**
      * for debug and unit tests only

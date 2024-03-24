@@ -6,6 +6,11 @@ import chess.ChessGame;
 
 public class JoinObserver extends State{
     @Override
+    public String getSignature() { return ""; }
+    @Override
+    public int getNumArgs() { return 0; }
+
+    @Override
     public State Run(StateMachine sm) {
         System.out.println("Implement Observe Game here\n");
 
