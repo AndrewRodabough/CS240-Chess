@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import model.AuthData;
 import model.UserData;
 
+import javax.ws.rs.client.Client;
 import java.net.http.HttpResponse;
 import java.util.List;
 
@@ -43,6 +44,6 @@ public class Login extends State {
 
         sm.setAuth(auth);
         sm.setArgs(null);
-        return new Menu();
+        return new ClientStateMachine.States.LoggedIn.Menu();
     }
 }

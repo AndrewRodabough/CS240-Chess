@@ -69,6 +69,11 @@ public class ChessBoard {
         }
         return null;
     }
+
+    public ChessPiece[][] getSquares() {
+        return squares;
+    }
+
     public boolean positionExists(ChessPosition pos) {
         int col =  pos.getColumn();
         int row =  pos.getRow();
