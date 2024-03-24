@@ -33,7 +33,7 @@ public class Login extends State {
         String json = new Gson().toJson(user);
         System.out.println(json);
 
-        HttpResponse<String> res = HTTPHandler.sendRequest("/session", "POST", json);
+        HttpResponse<String> res = HTTPHandler.sendRequest("/session", "POST", json, null);
 
         if(res == null) {
             System.out.println("ERROR, no response from server");

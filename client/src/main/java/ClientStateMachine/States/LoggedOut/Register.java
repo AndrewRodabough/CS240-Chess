@@ -37,7 +37,7 @@ public class Register extends State {
         String json = new Gson().toJson(user);
         System.out.println(json);
 
-        HttpResponse<String> res = HTTPHandler.sendRequest("/user", "POST", json);
+        HttpResponse<String> res = HTTPHandler.sendRequest("/user", "POST", json, null);
 
         if(res == null) {
             System.out.println("ERROR, no response from server");
