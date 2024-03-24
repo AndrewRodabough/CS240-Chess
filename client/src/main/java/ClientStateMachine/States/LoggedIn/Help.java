@@ -5,12 +5,19 @@ import ClientStateMachine.States.State;
 
 public class Help extends State{
     @Override
-    public String getSignature() { return ""; }
+    public String getSignature() { return "help"; }
     @Override
     public int getNumArgs() { return 0; }
 
     @Override
     public State Run(StateMachine sm) {
+
+        Boolean correctArgs = checkArgs(sm);
+        if (!correctArgs) {
+            sm.setArgs(null);
+            return new Menu();
+        }
+
         System.out.print(
                 """
                 Valid Commands:

@@ -38,6 +38,6 @@ public class ListGames implements Handler {
         }
     }
 
-    record games(Collection<GameData> games) {
+    public record games(Collection<GameData> games) {
     }
 }

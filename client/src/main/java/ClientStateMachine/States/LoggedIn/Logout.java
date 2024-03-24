@@ -11,31 +11,28 @@ import java.util.Map;
 
 public class Logout extends State{
     @Override
-    public String getSignature() { return ""; }
+    public String getSignature() { return "logout"; }
     @Override
     public int getNumArgs() { return 0; }
 
     @Override
     public State Run(StateMachine sm) {
-        System.out.println("Implement Logout Here");
 
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("authorization", sm.getAuth().authToken());
+        Boolean correctArgs = checkArgs(sm);
+        if (!correctArgs) {
+            sm.setArgs(null);
+            return new Menu();
+        }
 
-        HttpResponse<String> res = HTTPHandler.sendRequest("/session", "DELETE", "", headers);
+        HttpResponse<String> res = HTTPHandler.sendRequest("/session", "DELETE", "", sm.createAuthHeader());
 
-        if(res == null) {
-            System.out.println("ERROR, no response from server");
+        Boolean goodRes = checkStatus(res);
+        if(!goodRes) {
             sm.setArgs(null);
             return new ClientStateMachine.States.LoggedOut.Menu();
         }
-        if(res.statusCode() != 200) {
-            System.out.println("ERROR, status code was not 200. Code: " + res.statusCode());
-            sm.setArgs(null);
-            return new ClientStateMachine.States.LoggedOut.Menu();
-        }
 
-        System.out.println("You are now logged out\n");
+        System.out.println("logout successful\n");
 
         sm.setAuth(null);
         sm.setArgs(null);
