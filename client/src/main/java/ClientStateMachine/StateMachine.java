@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class StateMachine {
-    private boolean loginStatus = false;
     private AuthData auth = null;
     private State currentState;
+    private int GameID = -1;
     private List<String> args = null;
     private ChessGame.TeamColor teamColor = null;
     private final Scanner scanner = new Scanner(System.in);
@@ -40,8 +40,6 @@ public class StateMachine {
 
     public static HashMap<String, State> getLoggedOutCommands() { return loggedOutCommands; }
     public static HashMap<String, State> getLoggedInCommands() { return loggedInCommands; }
-    public boolean getLoginStatus() { return loginStatus; }
-    public void setLoginStatus(boolean loginStatus) { this.loginStatus = loginStatus; }
     public AuthData getAuth() { return auth; }
     public void setAuth(AuthData auth) { this.auth = auth; }
     public Scanner getScanner() { return scanner; }
@@ -49,6 +47,14 @@ public class StateMachine {
     public void setArgs(List<String> args) { this.args = args; }
     public ChessGame.TeamColor getTeamColor() { return teamColor; }
     public void setTeamColor(ChessGame.TeamColor teamColor) { this.teamColor = teamColor; }
+
+    public int getGameID() {
+        return GameID;
+    }
+
+    public void setGameID(int gameID) {
+        GameID = gameID;
+    }
 
     public Map<String, String> createAuthHeader() {
         Map<String, String> header = new HashMap<String, String>();

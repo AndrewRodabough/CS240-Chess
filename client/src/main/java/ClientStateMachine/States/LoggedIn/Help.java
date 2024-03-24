@@ -21,12 +21,12 @@ public class Help extends State{
         System.out.print(
                 """
                 Valid Commands:
-                'create <NAME>'                         - create a game
-                'help'                                  - to play chess
-                'join <ID> <["WHITE"|"BLACK"|<empty>]>' - join a game
-                'observe <ID>'                          - observe a game
-                'list'                                  - show games list
-                'logout'                                - return to "LoggedOut" state
+                'create <NAME>'                 - create a game
+                'help'                          - to play chess
+                'join <ID> <["WHITE"|"BLACK"]>' - join a game
+                'observe <ID>'                  - observe a game
+                'list'                          - show games list
+                'logout'                        - return to "LoggedOut" state
                 
                 """
         );

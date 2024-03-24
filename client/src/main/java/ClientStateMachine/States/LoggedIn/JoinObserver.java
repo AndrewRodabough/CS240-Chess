@@ -1,21 +1,51 @@
 package ClientStateMachine.States.LoggedIn;
 
+import ClientStateMachine.HTTPHandler;
 import ClientStateMachine.StateMachine;
 import ClientStateMachine.States.State;
 import chess.ChessGame;
+import com.google.gson.Gson;
+
+import java.net.http.HttpResponse;
+import java.util.List;
 
 public class JoinObserver extends State{
     @Override
-    public String getSignature() { return ""; }
+    public String getSignature() { return "observe <ID>"; }
     @Override
-    public int getNumArgs() { return 0; }
+    public int getNumArgs() { return 1; }
 
     @Override
     public State Run(StateMachine sm) {
-        System.out.println("Implement Observe Game here\n");
+        Boolean correctArgs = checkArgs(sm);
+        if (!correctArgs) {
+            sm.setArgs(null);
+            return new Menu();
+        }
 
-        sm.setTeamColor(null); // implement
+        List<String> args = sm.getArgs();
+        int id;
+        try {
+            id = Integer.parseInt(args.get(0));
+        } catch (NumberFormatException e) {
+            System.out.println("the given id is not valid\nID: '" + args.get(0) + "'\n Expected: <INT>");
+            return new Menu();
+        }
+        handler.JoinGame.JoinGameRequest joinReq = new handler.JoinGame.JoinGameRequest(null, id);
+        String json = new Gson().toJson(joinReq);
+        System.out.println(json);
+
+        HttpResponse<String> res = HTTPHandler.sendRequest("/game", "PUT", json, sm.createAuthHeader());
+        Boolean goodRes = checkStatus(res);
+        if(!goodRes) {
+            sm.setArgs(null);
+            return new ClientStateMachine.States.LoggedOut.Menu();
+        }
+
+        System.out.println("game successfully joined\n");
+
+        sm.setGameID(id);
         sm.setArgs(null);
-        return new ClientStateMachine.States.LoggedIn.InGameObserver();
+        return new InGameObserver();
     }
 }

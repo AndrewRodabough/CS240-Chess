@@ -11,6 +11,7 @@ public class InGame extends State {
 
     @Override
     public State Run(StateMachine sm) {
+        System.out.println("Game Joined");
         System.out.println("Implement In Game\n");
         sm.setArgs(null);
         return null;

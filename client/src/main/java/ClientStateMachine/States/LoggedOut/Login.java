@@ -43,6 +43,6 @@ public class Login extends State {
 
         sm.setAuth(auth);
         sm.setArgs(null);
-        return new ClientStateMachine.States.LoggedIn.Menu();
+        return new Menu();
     }
 }

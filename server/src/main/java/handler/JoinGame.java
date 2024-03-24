@@ -51,5 +51,5 @@ public class JoinGame implements Handler {
         // return message as json
         return new JsonParser().parse(message).getAsJsonObject();
     }
-    record JoinGameRequest(String playerColor, int gameID) {}
+    public record JoinGameRequest(String playerColor, int gameID) {}
 }
