@@ -15,6 +15,7 @@ public class Help extends State{
                 'observe <ID>'                          - observe a game
                 'list'                                  - show games list
                 'logout'                                - return to "LoggedOut" state
+                
                 """
         );
 

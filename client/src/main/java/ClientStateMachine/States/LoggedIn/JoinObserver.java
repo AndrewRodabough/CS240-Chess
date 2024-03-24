@@ -7,7 +7,7 @@ import chess.ChessGame;
 public class JoinObserver extends State{
     @Override
     public State Run(StateMachine sm) {
-        System.out.println("Implement Observe Game here");
+        System.out.println("Implement Observe Game here\n");
 
         sm.setTeamColor(null); // implement
         sm.setArgs(null);

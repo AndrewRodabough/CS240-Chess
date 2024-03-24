@@ -2,6 +2,7 @@ package ClientStateMachine;
 
 import ClientStateMachine.States.*;
 import chess.ChessGame;
+import model.AuthData;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Scanner;
 
 public class StateMachine {
     private boolean loginStatus = false;
-    private String AuthToken = null;
+    private AuthData auth = null;
     private State currentState;
     private List<String> args = null;
     private ChessGame.TeamColor teamColor = null;
@@ -40,8 +41,8 @@ public class StateMachine {
     public static HashMap<String, State> getLoggedInCommands() { return loggedInCommands; }
     public boolean getLoginStatus() { return loginStatus; }
     public void setLoginStatus(boolean loginStatus) { this.loginStatus = loginStatus; }
-    public String getAuthToken() { return AuthToken; }
-    public void setAuthToken(String authToken) { AuthToken = authToken; }
+    public AuthData getAuth() { return auth; }
+    public void setAuth(AuthData auth) { this.auth = auth; }
     public Scanner getScanner() { return scanner; }
     public List<String> getArgs() { return args; }
     public void setArgs(List<String> args) { this.args = args; }

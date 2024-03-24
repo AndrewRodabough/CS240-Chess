@@ -6,7 +6,7 @@ import ClientStateMachine.States.State;
 public class ListGame extends State{
     @Override
     public State Run(StateMachine sm) {
-        System.out.println("Implement List Here");
+        System.out.println("Implement List Here\n");
         sm.setArgs(null);
         return new Menu();
     }

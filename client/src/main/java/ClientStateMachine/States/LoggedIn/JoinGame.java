@@ -7,7 +7,7 @@ import chess.ChessGame;
 public class JoinGame extends State{
     @Override
     public State Run(StateMachine sm) {
-        System.out.println("Implement Join Game here");
+        System.out.println("Implement Join Game here\n");
 
         sm.setArgs(null);
         sm.setTeamColor(ChessGame.TeamColor.WHITE); // implement

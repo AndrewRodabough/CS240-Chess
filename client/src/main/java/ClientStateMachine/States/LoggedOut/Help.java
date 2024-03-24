@@ -12,6 +12,7 @@ public class Help extends State {
             'login <USERNAME> <PASSWORD>'               - to play chess
             'help'                                      - shows possible commands
             'quit'                                      - exit program
+            
             """
             );
 
