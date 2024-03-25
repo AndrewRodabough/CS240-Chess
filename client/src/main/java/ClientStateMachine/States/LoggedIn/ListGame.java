@@ -1,14 +1,12 @@
 package ClientStateMachine.States.LoggedIn;
 
-import ClientStateMachine.HTTPHandler;
+import ClientStateMachine.ServerFacade;
 import ClientStateMachine.StateMachine;
 import ClientStateMachine.States.State;
 import model.GameData;
 import java.net.http.HttpResponse;
 import java.util.Collection;
-import java.util.List;
-import java.lang.reflect.Type;
-import com.google.gson.reflect.TypeToken;
+
 import com.google.gson.Gson;
 
 public class ListGame extends State{
@@ -26,7 +24,7 @@ public class ListGame extends State{
             return new Menu();
         }
 
-        HttpResponse<String> res = HTTPHandler.sendRequest("/game", "GET", "", sm.createAuthHeader());
+        HttpResponse<String> res = ServerFacade.sendRequest("/game", "GET", "", sm.createAuthHeader());
 
         Boolean goodRes = checkStatus(res);
         if(!goodRes) {

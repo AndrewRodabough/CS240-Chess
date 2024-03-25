@@ -6,7 +6,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
 
-public class HTTPHandler {
+public class ServerFacade {
     static HttpClient client = HttpClient.newHttpClient();
 
     public static HttpResponse<String> sendRequest(String endpoint, String method, String requestBody, Map<String, String> headers) {

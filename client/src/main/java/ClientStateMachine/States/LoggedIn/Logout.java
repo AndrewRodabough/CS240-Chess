@@ -1,13 +1,10 @@
 package ClientStateMachine.States.LoggedIn;
 
-import ClientStateMachine.HTTPHandler;
+import ClientStateMachine.ServerFacade;
 import ClientStateMachine.StateMachine;
 import ClientStateMachine.States.State;
-import com.google.gson.Gson;
 
 import java.net.http.HttpResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Logout extends State{
     @Override
@@ -24,7 +21,7 @@ public class Logout extends State{
             return new Menu();
         }
 
-        HttpResponse<String> res = HTTPHandler.sendRequest("/session", "DELETE", "", sm.createAuthHeader());
+        HttpResponse<String> res = ServerFacade.sendRequest("/session", "DELETE", "", sm.createAuthHeader());
 
         Boolean goodRes = checkStatus(res);
         if(!goodRes) {

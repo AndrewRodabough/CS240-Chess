@@ -1,13 +1,12 @@
 package ClientStateMachine.States.LoggedOut;
 
-import ClientStateMachine.HTTPHandler;
+import ClientStateMachine.ServerFacade;
 import ClientStateMachine.StateMachine;
 import ClientStateMachine.States.State;
 import com.google.gson.Gson;
 import model.AuthData;
 import model.UserData;
 
-import javax.ws.rs.client.Client;
 import java.net.http.HttpResponse;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class Login extends State {
         String json = new Gson().toJson(user);
         System.out.println(json);
 
-        HttpResponse<String> res = HTTPHandler.sendRequest("/session", "POST", json, null);
+        HttpResponse<String> res = ServerFacade.sendRequest("/session", "POST", json, null);
         Boolean goodRes = checkStatus(res);
         if(!goodRes) {
             sm.setArgs(null);

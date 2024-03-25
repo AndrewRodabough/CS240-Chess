@@ -1,12 +1,10 @@
 package ClientStateMachine.States.LoggedIn;
 
-import ClientStateMachine.HTTPHandler;
+import ClientStateMachine.ServerFacade;
 import ClientStateMachine.StateMachine;
 import ClientStateMachine.States.State;
 import chess.ChessGame;
 import com.google.gson.Gson;
-import model.AuthData;
-import model.GameData;
 
 import java.net.http.HttpResponse;
 import java.util.List;
@@ -39,7 +37,7 @@ public class JoinGame extends State{
         String json = new Gson().toJson(joinReq);
         System.out.println(json);
 
-        HttpResponse<String> res = HTTPHandler.sendRequest("/game", "PUT", json, sm.createAuthHeader());
+        HttpResponse<String> res = ServerFacade.sendRequest("/game", "PUT", json, sm.createAuthHeader());
         Boolean goodRes = checkStatus(res);
         if(!goodRes) {
             sm.setArgs(null);

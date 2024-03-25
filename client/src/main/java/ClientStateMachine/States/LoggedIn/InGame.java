@@ -1,17 +1,14 @@
 package ClientStateMachine.States.LoggedIn;
 
-import ClientStateMachine.HTTPHandler;
+import ClientStateMachine.ServerFacade;
 import ClientStateMachine.StateMachine;
 import ClientStateMachine.States.State;
 import chess.ChessGame;
-import chess.ChessPiece;
 import com.google.gson.Gson;
 import model.GameData;
 
 import java.net.http.HttpResponse;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Objects;
 
 public class InGame extends State {
     @Override
@@ -27,7 +24,7 @@ public class InGame extends State {
             return new Menu();
         }
 
-        HttpResponse<String> res = HTTPHandler.sendRequest("/game", "GET", "", sm.createAuthHeader());
+        HttpResponse<String> res = ServerFacade.sendRequest("/game", "GET", "", sm.createAuthHeader());
 
         Boolean goodRes = checkStatus(res);
         if(!goodRes) {

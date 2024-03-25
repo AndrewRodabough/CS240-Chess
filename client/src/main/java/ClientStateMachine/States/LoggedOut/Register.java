@@ -5,7 +5,7 @@ import ClientStateMachine.States.State;
 import model.AuthData;
 import model.UserData;
 
-import ClientStateMachine.HTTPHandler;
+import ClientStateMachine.ServerFacade;
 
 import com.google.gson.Gson;
 
@@ -32,7 +32,7 @@ public class Register extends State {
         String json = new Gson().toJson(user);
         System.out.println(json);
 
-        HttpResponse<String> res = HTTPHandler.sendRequest("/user", "POST", json, null);
+        HttpResponse<String> res = ServerFacade.sendRequest("/user", "POST", json, null);
         Boolean goodRes = checkStatus(res);
         if(!goodRes) {
             sm.setArgs(null);

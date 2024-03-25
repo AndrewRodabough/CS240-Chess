@@ -1,17 +1,13 @@
 package ClientStateMachine.States.LoggedIn;
 
-import ClientStateMachine.HTTPHandler;
+import ClientStateMachine.ServerFacade;
 import ClientStateMachine.StateMachine;
 import ClientStateMachine.States.State;
 import com.google.gson.Gson;
-import model.AuthData;
 import model.GameData;
-import model.UserData;
 
 import java.net.http.HttpResponse;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CreateGame extends State{
     @Override
@@ -33,7 +29,7 @@ public class CreateGame extends State{
         String json = new Gson().toJson(gameReq);
         System.out.println(json);
 
-        HttpResponse<String> res = HTTPHandler.sendRequest("/game", "POST", json, sm.createAuthHeader());
+        HttpResponse<String> res = ServerFacade.sendRequest("/game", "POST", json, sm.createAuthHeader());
 
         Boolean goodRes = checkStatus(res);
         if(!goodRes) {
