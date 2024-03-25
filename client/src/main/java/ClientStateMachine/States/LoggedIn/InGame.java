@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class InGame extends State {
     @Override
-    public String getSignature() { return ""; }
+    public String getSignature() { return "playing"; }
     @Override
     public int getNumArgs() { return 0; }
 
