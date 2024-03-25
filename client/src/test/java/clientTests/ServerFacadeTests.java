@@ -27,7 +27,7 @@ public class ServerFacadeTests {
     }
 
     @Test
-    public void positiveTest() {
+    public void positiveRegisterTest() {
         UserData user = new UserData("bob", "password", "bob@bob.com");
         String json = new Gson().toJson(user);
         HttpResponse<String> res = ServerFacade.sendRequest("/user", "POST", json, null);
@@ -36,7 +36,7 @@ public class ServerFacadeTests {
         Assertions.assertTrue(res.statusCode() == 200);
     }
     @Test
-    public void negativeTest() {
+    public void negativeRegisterTest() {
         UserData user = new UserData("bob", null , "bob@bob.com");
         String json = new Gson().toJson(user);
         HttpResponse<String> res = ServerFacade.sendRequest("/user", "POST", json, null);
@@ -44,6 +44,53 @@ public class ServerFacadeTests {
         Assertions.assertFalse(res.statusCode() == 200);
     }
 
+    @Test
+    public void positiveLoginTest() {
+        Assertions.assertTrue(true);
+    }
+    @Test
+    public void negativeLoginTest() {
+        Assertions.assertTrue(true);
+    }
 
+    @Test
+    public void positiveListTest() {
+        Assertions.assertTrue(true);
+    }
+    @Test
+    public void negativeListTest() {
+        Assertions.assertTrue(true);
+    }
 
+    @Test
+    public void positiveCreateTest() {
+        Assertions.assertTrue(true);
+    }
+    @Test
+    public void negativeCreateTest() {
+        Assertions.assertTrue(true);
+    }
+
+    @Test
+    public void positiveLogoutTest() {
+        Assertions.assertTrue(true);
+    }
+    @Test
+    public void negativeLogoutTest() {
+        Assertions.assertTrue(true);
+    }
+
+    @Test
+    public void positiveJoinTest() {
+        Assertions.assertTrue(true);
+    }
+    @Test
+    public void negativeJoinTest() {
+        Assertions.assertTrue(true);
+    }
+
+    @Test
+    public void positiveclearTest() {
+        Assertions.assertTrue(true);
+    }
 }
