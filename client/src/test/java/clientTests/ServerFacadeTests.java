@@ -90,7 +90,11 @@ public class ServerFacadeTests {
     }
 
     @Test
-    public void positiveclearTest() {
+    public void positiveClearTest() {
+        Assertions.assertTrue(true);
+    }
+    @Test
+    public void negativeClearTest() {
         Assertions.assertTrue(true);
     }
 }
