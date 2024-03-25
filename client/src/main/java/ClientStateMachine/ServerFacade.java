@@ -8,10 +8,11 @@ import java.util.Map;
 
 public class ServerFacade {
     static HttpClient client = HttpClient.newHttpClient();
+    public static int port = 8080;
 
     public static HttpResponse<String> sendRequest(String endpoint, String method, String requestBody, Map<String, String> headers) {
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080" + endpoint))
+                .uri(URI.create("http://localhost:"+port + endpoint))
                 .method(method, HttpRequest.BodyPublishers.ofString(requestBody));
 
 
